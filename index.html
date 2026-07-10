@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistem Informasi PMI Kabupaten Lombok Barat</title>
     
-    <!-- Google Fonts: Inter (Modern Stripe-like Font) -->
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS (via CDN) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Tailwind Configuration -->
@@ -40,7 +40,7 @@
         }
     </script>
 
-    <!-- Custom CSS untuk penyempurnaan kecil -->
+    <!-- Custom CSS -->
     <style>
         body {
             -webkit-font-smoothing: antialiased;
@@ -48,10 +48,11 @@
         }
         /* Efek blur kustom untuk navbar */
         .glass-nav {
-            background-color: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         }
         /* Style scrollbar agar lebih elegan */
         ::-webkit-scrollbar {
@@ -75,33 +76,34 @@
 <body class="bg-slate-50 text-slate-900 selection:bg-pmi-100 selection:text-pmi-700 min-h-screen flex flex-col">
 
     <!-- 1. INFORMASI DARURAT (Top Bar) -->
-    <div class="bg-pmi-600 text-white text-xs sm:text-sm font-medium px-4 py-2 flex justify-between items-center z-50 relative">
+    <div class="bg-pmi-700 text-white text-xs sm:text-sm font-medium px-4 py-2.5 flex justify-between items-center relative z-50">
         <div class="max-w-7xl mx-auto w-full flex flex-col sm:flex-row justify-between items-center gap-2">
             <div class="flex items-center gap-2 text-center sm:text-left">
-                <i data-lucide="alert-triangle" class="w-4 h-4 animate-pulse-fast"></i>
-                <span>Siaga Bencana: Kekeringan di 3 Kecamatan. Tim Relawan sedang bertugas.</span>
+                <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-300 animate-pulse-fast"></i>
+                <span class="opacity-90">Siaga Bencana: Kekeringan di 3 Kecamatan. Tim Relawan sedang bertugas.</span>
             </div>
             <div class="flex items-center gap-4">
-                <span class="flex items-center gap-1"><i data-lucide="phone" class="w-3.5 h-3.5"></i> Hotline 24 Jam: 118 / (0370) 666-118</span>
+                <span class="flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-opacity cursor-pointer">
+                    <i data-lucide="phone" class="w-3.5 h-3.5"></i> Hotline 24 Jam: 118 / (0370) 666-118
+                </span>
             </div>
         </div>
     </div>
 
-    <!-- 2. NAVBAR (Stripe-like Sticky Navbar) -->
-    <nav id="navbar" class="fixed w-full z-40 transition-all duration-300 bg-transparent py-5 top-[56px] sm:top-[36px]">
+    <!-- 2. NAVBAR (Sticky Navbar) -->
+    <nav id="navbar" class="sticky top-0 w-full z-40 transition-all duration-300 bg-white/50 backdrop-blur-sm border-b border-transparent py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center">
                 <!-- Logo -->
-                <a href="#" class="flex items-center gap-2 cursor-pointer group">
-                    <div class="w-10 h-10 bg-pmi-600 rounded-lg flex items-center justify-center shadow-lg shadow-pmi-600/20 group-hover:scale-105 transition-transform">
-                        <!-- Custom Plus Icon (PMI) -->
+                <a href="#" class="flex items-center gap-3 cursor-pointer group">
+                    <div class="w-11 h-11 bg-gradient-to-br from-pmi-500 to-pmi-700 rounded-xl flex items-center justify-center shadow-lg shadow-pmi-600/30 group-hover:scale-105 transition-transform duration-300">
                         <svg viewBox="0 0 24 24" fill="white" class="w-6 h-6">
                             <path d="M19 10h-5V5a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v5H5a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h5v5a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-5h5a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1z"/>
                         </svg>
                     </div>
                     <div class="flex flex-col">
-                        <span class="font-bold text-lg leading-tight tracking-tight text-slate-900">PMI</span>
-                        <span class="text-[10px] sm:text-xs font-semibold text-slate-500 tracking-wider">LOMBOK BARAT</span>
+                        <span class="font-extrabold text-xl leading-tight tracking-tight text-slate-900 group-hover:text-pmi-600 transition-colors">PMI</span>
+                        <span class="text-[10px] sm:text-xs font-bold text-slate-500 tracking-widest uppercase">Lombok Barat</span>
                     </div>
                 </a>
 
@@ -109,67 +111,66 @@
                 <div class="hidden lg:flex items-center space-x-8">
                     <!-- Dropdown Item -->
                     <div class="relative group">
-                        <button class="flex items-center gap-1 text-slate-600 hover:text-slate-900 font-medium py-2 transition-colors">
+                        <button class="flex items-center gap-1.5 text-slate-600 hover:text-pmi-600 font-semibold py-2 transition-colors">
                             Tentang PMI
-                            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-900 transition-colors"></i>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-hover:text-pmi-600 transition-colors"></i>
                         </button>
-                        <!-- Dropdown Menu -->
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-1 w-56 bg-white shadow-xl shadow-slate-200/50 rounded-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-2 group-hover:translate-y-0">
+                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-white shadow-xl shadow-slate-200/50 rounded-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-2 group-hover:translate-y-0">
                             <div class="p-2 flex flex-col gap-1">
-                                <a href="#" class="px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Sejarah & Profil</a>
-                                <a href="#" class="px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Legalitas & AD/ART</a>
-                                <a href="#" class="px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Struktur Organisasi</a>
-                                <a href="#" class="px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Pengurus Kecamatan</a>
+                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Sejarah & Profil</a>
+                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Legalitas & AD/ART</a>
+                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Struktur Organisasi</a>
+                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Pengurus Kecamatan</a>
                             </div>
                         </div>
                     </div>
 
                     <!-- Dropdown Item -->
                     <div class="relative group">
-                        <button class="flex items-center gap-1 text-slate-600 hover:text-slate-900 font-medium py-2 transition-colors">
+                        <button class="flex items-center gap-1.5 text-slate-600 hover:text-pmi-600 font-semibold py-2 transition-colors">
                             Layanan
-                            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-900 transition-colors"></i>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-hover:text-pmi-600 transition-colors"></i>
                         </button>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-1 w-56 bg-white shadow-xl shadow-slate-200/50 rounded-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-2 group-hover:translate-y-0">
+                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-white shadow-xl shadow-slate-200/50 rounded-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-2 group-hover:translate-y-0">
                             <div class="p-2 flex flex-col gap-1">
-                                <a href="#" class="px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Unit Donor Darah</a>
-                                <a href="#" class="px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Layanan Kesehatan & Ambulans</a>
-                                <a href="#" class="px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Penanggulangan Bencana</a>
+                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Unit Donor Darah</a>
+                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Kesehatan & Ambulans</a>
+                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Manajemen Bencana</a>
                             </div>
                         </div>
                     </div>
 
                     <!-- Dropdown Item -->
                     <div class="relative group">
-                        <button class="flex items-center gap-1 text-slate-600 hover:text-slate-900 font-medium py-2 transition-colors">
-                            Informasi & Data
-                            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-900 transition-colors"></i>
+                        <button class="flex items-center gap-1.5 text-slate-600 hover:text-pmi-600 font-semibold py-2 transition-colors">
+                            Informasi
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-hover:text-pmi-600 transition-colors"></i>
                         </button>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-1 w-56 bg-white shadow-xl shadow-slate-200/50 rounded-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-2 group-hover:translate-y-0">
+                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-white shadow-xl shadow-slate-200/50 rounded-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-2 group-hover:translate-y-0">
                             <div class="p-2 flex flex-col gap-1">
-                                <a href="#" class="px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Berita & Agenda</a>
-                                <a href="#" class="px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Data & Statistik Terbuka</a>
-                                <a href="#" class="px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Transparansi Laporan</a>
+                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Berita & Agenda</a>
+                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Data & Statistik</a>
+                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Transparansi Laporan</a>
                             </div>
                         </div>
                     </div>
 
-                    <a href="#" class="text-slate-600 hover:text-pmi-600 font-medium transition-colors">Portal Internal</a>
+                    <a href="#" class="text-slate-600 hover:text-pmi-600 font-semibold transition-colors">Portal Internal</a>
                 </div>
 
                 <!-- Action Buttons -->
                 <div class="hidden lg:flex items-center space-x-4">
-                    <button class="text-slate-600 hover:text-pmi-600 font-medium p-2 transition-colors">
+                    <button class="text-slate-500 hover:text-pmi-600 p-2 transition-colors">
                         <i data-lucide="search" class="w-5 h-5"></i>
                     </button>
-                    <button class="bg-pmi-600 hover:bg-pmi-700 text-white px-6 py-2.5 rounded-full font-semibold transition-all shadow-md shadow-pmi-600/20 hover:shadow-lg hover:-translate-y-0.5">
+                    <button class="bg-pmi-600 hover:bg-pmi-700 text-white px-6 py-2.5 rounded-full font-semibold transition-all shadow-md shadow-pmi-600/20 hover:shadow-lg hover:shadow-pmi-600/40 hover:-translate-y-0.5">
                         Donasi Sekarang
                     </button>
                 </div>
 
                 <!-- Mobile Menu Button -->
                 <div class="lg:hidden">
-                    <button id="mobile-menu-btn" class="text-slate-900 p-2">
+                    <button id="mobile-menu-btn" class="text-slate-900 p-2 focus:outline-none bg-slate-100 rounded-lg active:scale-95 transition-transform">
                         <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
                         <i data-lucide="x" id="close-icon" class="w-6 h-6 hidden"></i>
                     </button>
@@ -178,136 +179,147 @@
         </div>
 
         <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-slate-100 shadow-xl absolute w-full left-0 top-full p-4 flex flex-col gap-4">
-            <a href="#" class="font-medium text-slate-700 p-2 hover:bg-slate-50 rounded">Tentang PMI</a>
-            <a href="#" class="font-medium text-slate-700 p-2 hover:bg-slate-50 rounded">Layanan Terpadu</a>
-            <a href="#" class="font-medium text-slate-700 p-2 hover:bg-slate-50 rounded">Informasi & Data</a>
-            <a href="#" class="font-medium text-pmi-600 p-2 hover:bg-slate-50 rounded">Portal Internal</a>
-            <hr class="border-slate-100">
-            <button class="bg-pmi-600 w-full text-white px-6 py-3 rounded-xl font-semibold">Donasi Sekarang</button>
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-slate-100 shadow-2xl absolute w-full left-0 top-full p-4 flex flex-col gap-2">
+            <a href="#" class="font-semibold text-slate-700 p-3 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Tentang PMI</a>
+            <a href="#" class="font-semibold text-slate-700 p-3 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Layanan Terpadu</a>
+            <a href="#" class="font-semibold text-slate-700 p-3 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Informasi & Data</a>
+            <a href="#" class="font-semibold text-pmi-600 p-3 hover:bg-red-50 rounded-lg transition-colors">Portal Internal</a>
+            <hr class="border-slate-100 my-2">
+            <button class="bg-pmi-600 w-full text-white px-6 py-3.5 rounded-xl font-bold shadow-md shadow-pmi-600/20 active:scale-95 transition-transform">
+                Donasi Sekarang
+            </button>
         </div>
     </nav>
 
-    <!-- 3. HERO SECTION (Modern Angled / Gradient) -->
-    <section class="relative pt-40 pb-20 lg:pt-48 lg:pb-32 overflow-hidden flex-grow">
+    <!-- 3. HERO SECTION -->
+    <section class="relative pt-20 pb-20 lg:pt-32 lg:pb-32 overflow-hidden flex-grow flex items-center">
         <!-- Background Decorative Elements -->
-        <div class="absolute inset-0 bg-white -z-20"></div>
-        <div class="absolute right-0 top-0 w-[600px] sm:w-[800px] h-[600px] sm:h-[800px] bg-gradient-to-br from-red-50 to-red-100 rounded-full blur-[80px] sm:blur-3xl opacity-60 -translate-y-1/2 translate-x-1/3 -z-10 pointer-events-none"></div>
-        <div class="absolute left-0 bottom-0 w-[400px] sm:w-[500px] h-[400px] sm:h-[500px] bg-gradient-to-tr from-slate-100 to-white rounded-full blur-[60px] sm:blur-3xl opacity-80 translate-y-1/3 -translate-x-1/4 -z-10 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-slate-50 -z-20"></div>
+        <div class="absolute right-0 top-0 w-[600px] sm:w-[800px] h-[600px] sm:h-[800px] bg-gradient-to-br from-red-100 to-rose-50 rounded-full blur-[80px] sm:blur-3xl opacity-70 -translate-y-1/3 translate-x-1/3 -z-10 pointer-events-none"></div>
+        <div class="absolute left-0 bottom-0 w-[400px] sm:w-[500px] h-[400px] sm:h-[500px] bg-gradient-to-tr from-slate-200 to-white rounded-full blur-[60px] sm:blur-3xl opacity-80 translate-y-1/3 -translate-x-1/4 -z-10 pointer-events-none"></div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full">
             <div class="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
                 
                 <!-- Text Content -->
                 <div class="max-w-2xl text-center lg:text-left mx-auto lg:mx-0">
-                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-50 border border-red-100 text-pmi-600 text-sm font-semibold mb-6">
-                        <span class="flex h-2 w-2 rounded-full bg-pmi-600 animate-ping"></span>
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 border border-red-100 text-pmi-600 text-xs sm:text-sm font-bold mb-8 shadow-sm">
+                        <span class="flex h-2.5 w-2.5 rounded-full bg-pmi-600 animate-ping absolute"></span>
+                        <span class="flex h-2.5 w-2.5 rounded-full bg-pmi-600 relative"></span>
                         Sistem Informasi Terintegrasi 2026
                     </div>
                     
-                    <h1 class="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.1]">
+                    <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 mb-6 leading-[1.1]">
                         Kemanusiaan <br />
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-pmi-600 to-red-400">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-pmi-600 to-rose-400">
                             Tanpa Batas
                         </span>
                     </h1>
                     
-                    <p class="text-base sm:text-lg text-slate-600 mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                    <p class="text-base sm:text-lg text-slate-600 mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
                         Palang Merah Indonesia Kabupaten Lombok Barat hadir lebih dekat, cepat, dan transparan. Melayani kebutuhan darah, penanggulangan bencana, dan sosial kemanusiaan untuk masyarakat.
                     </p>
                     
                     <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        <button class="bg-pmi-600 hover:bg-pmi-700 text-white px-8 py-3.5 rounded-full font-semibold text-lg transition-all shadow-xl shadow-pmi-600/30 hover:-translate-y-1 flex items-center justify-center gap-2 group">
+                        <button class="bg-pmi-600 hover:bg-pmi-700 text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-xl shadow-pmi-600/30 hover:shadow-2xl hover:shadow-pmi-600/40 hover:-translate-y-1 flex items-center justify-center gap-3 group">
                             <i data-lucide="droplet" class="w-5 h-5 fill-white/20 group-hover:fill-white/40 transition-colors"></i>
                             Stok Darah Live
                         </button>
-                        <button class="bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-700 px-8 py-3.5 rounded-full font-semibold text-lg transition-all hover:bg-slate-50 flex items-center justify-center gap-2">
+                        <button class="bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-700 px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 hover:bg-slate-50 flex items-center justify-center gap-3">
                             <i data-lucide="shield-alert" class="w-5 h-5 text-amber-500"></i>
                             Lapor Darurat
                         </button>
                     </div>
 
-                    <div class="mt-10 flex flex-wrap justify-center lg:justify-start items-center gap-4 sm:gap-6 text-sm font-medium text-slate-500">
-                        <div class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="text-pmi-500 w-5 h-5"></i> Hotline 24 Jam</div>
-                        <div class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="text-pmi-500 w-5 h-5"></i> Respon Cepat</div>
-                        <div class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="text-pmi-500 w-5 h-5"></i> Terakreditasi</div>
+                    <div class="mt-12 flex flex-wrap justify-center lg:justify-start items-center gap-5 sm:gap-8 text-sm font-semibold text-slate-600">
+                        <div class="flex items-center gap-2"><i data-lucide="check-circle-2" class="text-green-500 w-5 h-5"></i> Hotline 24 Jam</div>
+                        <div class="flex items-center gap-2"><i data-lucide="check-circle-2" class="text-green-500 w-5 h-5"></i> Respon Cepat</div>
+                        <div class="flex items-center gap-2"><i data-lucide="check-circle-2" class="text-green-500 w-5 h-5"></i> Terakreditasi</div>
                     </div>
                 </div>
 
                 <!-- Hero Image / Dashboard Mockup (CSS only) -->
                 <div class="relative w-full max-w-lg lg:max-w-none mx-auto mt-10 lg:mt-0">
-                    <div class="relative rounded-2xl shadow-2xl overflow-hidden bg-white border border-slate-100 transform rotate-1 hover:rotate-0 transition-transform duration-500">
+                    <div class="relative rounded-3xl shadow-2xl overflow-hidden bg-white border border-slate-100 transform lg:rotate-2 hover:rotate-0 transition-transform duration-500 hover:shadow-3xl">
                         
                         <!-- Mac OS style window header -->
                         <div class="bg-slate-50 border-b border-slate-100 p-3 sm:p-4 flex items-center gap-2">
-                            <div class="flex gap-1.5">
-                                <div class="w-3 h-3 rounded-full bg-red-400"></div>
-                                <div class="w-3 h-3 rounded-full bg-amber-400"></div>
-                                <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                            <div class="flex gap-2">
+                                <div class="w-3.5 h-3.5 rounded-full bg-red-400"></div>
+                                <div class="w-3.5 h-3.5 rounded-full bg-amber-400"></div>
+                                <div class="w-3.5 h-3.5 rounded-full bg-green-400"></div>
                             </div>
-                            <div class="mx-auto bg-white border border-slate-200 rounded-md px-4 sm:px-12 py-1 text-[10px] sm:text-xs text-slate-400 font-medium">sim.pmilobar.or.id</div>
+                            <div class="mx-auto bg-white border border-slate-200 rounded-md px-6 py-1.5 text-[10px] sm:text-xs text-slate-500 font-semibold flex items-center gap-2 shadow-sm">
+                                <i data-lucide="lock" class="w-3 h-3 text-slate-400"></i> sim.pmilobar.or.id
+                            </div>
                         </div>
 
                         <!-- Dashboard Content -->
-                        <div class="p-4 sm:p-6">
+                        <div class="p-5 sm:p-8">
                             <div class="flex justify-between items-center mb-6">
-                                <h3 class="font-bold text-slate-800 text-sm sm:text-base">Dashboard Stok Darah</h3>
-                                <span class="flex items-center gap-1 text-[10px] sm:text-xs font-bold text-green-600 bg-green-50 border border-green-100 px-2 py-1 rounded-full">
-                                    <i data-lucide="activity" class="w-3 h-3"></i> Live
+                                <h3 class="font-extrabold text-slate-800 text-base sm:text-lg tracking-tight">Dashboard Stok Darah</h3>
+                                <span class="flex items-center gap-1.5 text-xs font-bold text-green-700 bg-green-100 border border-green-200 px-3 py-1.5 rounded-full">
+                                    <span class="relative flex h-2 w-2">
+                                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                                      <span class="relative inline-flex rounded-full h-2 w-2 bg-green-600"></span>
+                                    </span>
+                                    Live
                                 </span>
                             </div>
                             
                             <!-- Blood Badges Grid -->
-                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
                                 <!-- Badge A -->
-                                <div class="p-3 rounded-xl border border-slate-100 bg-slate-50 text-center transition-all hover:shadow-md cursor-pointer hover:bg-white">
-                                    <div class="text-xl font-bold text-slate-800">A</div>
-                                    <div class="text-2xl font-black text-slate-900 my-1">45</div>
-                                    <div class="text-[10px] font-bold uppercase tracking-wider text-green-500">Aman</div>
+                                <div class="p-4 rounded-2xl border border-slate-100 bg-slate-50 text-center transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer hover:bg-white hover:border-slate-200 group">
+                                    <div class="text-xl font-bold text-slate-600 group-hover:text-pmi-600 transition-colors">A</div>
+                                    <div class="text-3xl font-black text-slate-900 my-2">45</div>
+                                    <div class="text-[10px] font-bold uppercase tracking-widest text-green-500">Aman</div>
                                 </div>
                                 <!-- Badge B -->
-                                <div class="p-3 rounded-xl border border-slate-100 bg-slate-50 text-center transition-all hover:shadow-md cursor-pointer hover:bg-white">
-                                    <div class="text-xl font-bold text-slate-800">B</div>
-                                    <div class="text-2xl font-black text-slate-900 my-1">32</div>
-                                    <div class="text-[10px] font-bold uppercase tracking-wider text-green-500">Aman</div>
+                                <div class="p-4 rounded-2xl border border-slate-100 bg-slate-50 text-center transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer hover:bg-white hover:border-slate-200 group">
+                                    <div class="text-xl font-bold text-slate-600 group-hover:text-pmi-600 transition-colors">B</div>
+                                    <div class="text-3xl font-black text-slate-900 my-2">32</div>
+                                    <div class="text-[10px] font-bold uppercase tracking-widest text-green-500">Aman</div>
                                 </div>
                                 <!-- Badge AB (Critical) -->
-                                <div class="p-3 rounded-xl border border-red-200 bg-red-50 text-center transition-all hover:shadow-md cursor-pointer hover:bg-red-100">
+                                <div class="p-4 rounded-2xl border border-red-200 bg-red-50 text-center transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer hover:bg-red-100 group relative overflow-hidden">
+                                    <div class="absolute top-0 left-0 w-full h-1 bg-red-500"></div>
                                     <div class="text-xl font-bold text-pmi-600">AB</div>
-                                    <div class="text-2xl font-black text-slate-900 my-1">8</div>
-                                    <div class="text-[10px] font-bold uppercase tracking-wider text-red-500 animate-pulse">Kritis</div>
+                                    <div class="text-3xl font-black text-slate-900 my-2">8</div>
+                                    <div class="text-[10px] font-bold uppercase tracking-widest text-red-600 animate-pulse">Kritis</div>
                                 </div>
                                 <!-- Badge O -->
-                                <div class="p-3 rounded-xl border border-slate-100 bg-slate-50 text-center transition-all hover:shadow-md cursor-pointer hover:bg-white">
-                                    <div class="text-xl font-bold text-slate-800">O</div>
-                                    <div class="text-2xl font-black text-slate-900 my-1">120</div>
-                                    <div class="text-[10px] font-bold uppercase tracking-wider text-green-500">Aman</div>
+                                <div class="p-4 rounded-2xl border border-slate-100 bg-slate-50 text-center transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer hover:bg-white hover:border-slate-200 group">
+                                    <div class="text-xl font-bold text-slate-600 group-hover:text-pmi-600 transition-colors">O</div>
+                                    <div class="text-3xl font-black text-slate-900 my-2">120</div>
+                                    <div class="text-[10px] font-bold uppercase tracking-widest text-green-500">Aman</div>
                                 </div>
                             </div>
                             
                             <!-- Progress bar -->
                             <div class="space-y-3">
-                                <div class="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                                    <div class="h-full bg-pmi-500 w-[70%] rounded-full relative">
-                                        <div class="absolute top-0 right-0 bottom-0 left-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.15)_25%,transparent_25%,transparent_50%,rgba(255,255,255,0.15)_50%,rgba(255,255,255,0.15)_75%,transparent_75%,transparent)] bg-[length:1rem_1rem]"></div>
+                                <div class="flex justify-between text-xs font-bold text-slate-600 mb-1">
+                                    <span>Target Permintaan Harian</span>
+                                    <span class="text-pmi-600">70% Terpenuhi</span>
+                                </div>
+                                <div class="h-3 w-full bg-slate-100 rounded-full overflow-hidden border border-slate-200/60">
+                                    <div class="h-full bg-gradient-to-r from-pmi-500 to-pmi-400 w-[70%] rounded-full relative">
+                                        <div class="absolute top-0 right-0 bottom-0 left-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.2)_25%,transparent_25%,transparent_50%,rgba(255,255,255,0.2)_50%,rgba(255,255,255,0.2)_75%,transparent_75%,transparent)] bg-[length:1rem_1rem]"></div>
                                     </div>
                                 </div>
-                                <div class="flex justify-between text-[10px] sm:text-xs text-slate-500 font-medium">
-                                    <span>Permintaan Hari Ini: 24 Kantong</span>
-                                    <span class="text-pmi-600 font-bold">Terpenuhi: 70%</span>
-                                </div>
+                                <div class="text-[10px] text-slate-400 font-medium text-right">Update terakhir: 2 menit yang lalu</div>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Floating Animated Badge -->
-                    <div class="absolute -bottom-4 sm:-bottom-6 -left-2 sm:-left-6 bg-white p-3 sm:p-4 rounded-xl shadow-xl border border-slate-100 flex items-center gap-3 sm:gap-4 animate-bounce-slow z-10">
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
-                            <i data-lucide="truck" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                    <div class="absolute -bottom-6 -left-6 sm:-left-8 bg-white p-4 sm:p-5 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-4 animate-bounce-slow z-10">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 bg-green-100 text-green-600 rounded-full flex items-center justify-center shadow-inner">
+                            <i data-lucide="truck" class="w-6 h-6 sm:w-7 sm:h-7"></i>
                         </div>
                         <div>
-                            <p class="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wide">Ambulans</p>
-                            <p class="text-xs sm:text-sm font-bold text-slate-900">Siaga 24 Jam</p>
+                            <p class="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-widest mb-0.5">Ambulans</p>
+                            <p class="text-sm sm:text-base font-black text-slate-900">Siaga 24 Jam</p>
                         </div>
                     </div>
                 </div>
@@ -317,59 +329,59 @@
     </section>
 
     <!-- 4. LAYANAN CEPAT TANGGAP (Bento Grid) -->
-    <section class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center max-w-3xl mx-auto mb-16">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4">Layanan & Cepat Tanggap</h2>
-                <p class="text-slate-600 text-lg">Akses cepat ke berbagai layanan utama PMI Kabupaten Lombok Barat, terintegrasi dan responsif untuk masyarakat.</p>
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mb-5 tracking-tight">Layanan & Cepat Tanggap</h2>
+                <p class="text-slate-600 text-lg font-medium leading-relaxed">Akses cepat ke berbagai layanan utama PMI Kabupaten Lombok Barat, terintegrasi dan responsif untuk masyarakat.</p>
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Card 1 -->
-                <div class="group p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 hover:-translate-y-1 transition-all duration-300">
-                    <div class="w-14 h-14 rounded-2xl bg-red-50 text-pmi-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 group-hover:bg-pmi-600 group-hover:text-white">
-                        <i data-lucide="droplet" class="w-7 h-7"></i>
+                <div class="group p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col h-full">
+                    <div class="w-16 h-16 rounded-2xl bg-red-50 text-pmi-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 group-hover:bg-pmi-600 group-hover:text-white group-hover:shadow-lg group-hover:shadow-pmi-600/30">
+                        <i data-lucide="droplet" class="w-8 h-8"></i>
                     </div>
                     <h3 class="text-xl font-bold text-slate-900 mb-3">Unit Donor Darah</h3>
-                    <p class="text-slate-600 leading-relaxed text-sm">Jadwal donor, mobile unit, registrasi online, dan e-kartu donor pendonor sukarela.</p>
-                    <div class="mt-6 flex items-center gap-2 text-sm font-semibold text-slate-900 group-hover:text-pmi-600 transition-colors cursor-pointer">
-                        Pelajari Lebih Lanjut <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    <p class="text-slate-600 leading-relaxed text-sm font-medium flex-grow">Jadwal donor, mobile unit, registrasi online, dan e-kartu donor pendonor sukarela.</p>
+                    <div class="mt-8 flex items-center gap-2 text-sm font-bold text-slate-900 group-hover:text-pmi-600 transition-colors">
+                        Pelajari Lebih Lanjut <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
                     </div>
                 </div>
 
                 <!-- Card 2 -->
-                <div class="group p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 hover:-translate-y-1 transition-all duration-300">
-                    <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 group-hover:bg-blue-600 group-hover:text-white">
-                        <i data-lucide="heart-pulse" class="w-7 h-7"></i>
+                <div class="group p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col h-full">
+                    <div class="w-16 h-16 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 group-hover:bg-blue-600 group-hover:text-white group-hover:shadow-lg group-hover:shadow-blue-600/30">
+                        <i data-lucide="heart-pulse" class="w-8 h-8"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Layanan Kesehatan</h3>
-                    <p class="text-slate-600 leading-relaxed text-sm">Ambulans darurat, klinik/posko, home care, dan pelatihan pertolongan pertama (First Aid).</p>
-                    <div class="mt-6 flex items-center gap-2 text-sm font-semibold text-slate-900 group-hover:text-blue-600 transition-colors cursor-pointer">
-                        Pelajari Lebih Lanjut <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Kesehatan Terpadu</h3>
+                    <p class="text-slate-600 leading-relaxed text-sm font-medium flex-grow">Ambulans darurat, klinik, home care, dan pelatihan pertolongan pertama (First Aid).</p>
+                    <div class="mt-8 flex items-center gap-2 text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+                        Pelajari Lebih Lanjut <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
                     </div>
                 </div>
 
                 <!-- Card 3 -->
-                <div class="group p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 hover:-translate-y-1 transition-all duration-300">
-                    <div class="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 group-hover:bg-amber-600 group-hover:text-white">
-                        <i data-lucide="shield-alert" class="w-7 h-7"></i>
+                <div class="group p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col h-full">
+                    <div class="w-16 h-16 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 group-hover:bg-amber-500 group-hover:text-white group-hover:shadow-lg group-hover:shadow-amber-500/30">
+                        <i data-lucide="shield-alert" class="w-8 h-8"></i>
                     </div>
                     <h3 class="text-xl font-bold text-slate-900 mb-3">Manajemen Bencana</h3>
-                    <p class="text-slate-600 leading-relaxed text-sm">Informasi pra-bencana, tanggap darurat, pasca bencana, dan dashboard pemetaan GIS.</p>
-                    <div class="mt-6 flex items-center gap-2 text-sm font-semibold text-slate-900 group-hover:text-amber-600 transition-colors cursor-pointer">
-                        Pelajari Lebih Lanjut <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    <p class="text-slate-600 leading-relaxed text-sm font-medium flex-grow">Informasi pra-bencana, tanggap darurat, pasca bencana, dan dashboard pemetaan GIS.</p>
+                    <div class="mt-8 flex items-center gap-2 text-sm font-bold text-slate-900 group-hover:text-amber-600 transition-colors">
+                        Pelajari Lebih Lanjut <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
                     </div>
                 </div>
 
                 <!-- Card 4 -->
-                <div class="group p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 hover:-translate-y-1 transition-all duration-300">
-                    <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 group-hover:bg-emerald-600 group-hover:text-white">
-                        <i data-lucide="heart-handshake" class="w-7 h-7"></i>
+                <div class="group p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col h-full">
+                    <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 group-hover:bg-emerald-500 group-hover:text-white group-hover:shadow-lg group-hover:shadow-emerald-500/30">
+                        <i data-lucide="heart-handshake" class="w-8 h-8"></i>
                     </div>
                     <h3 class="text-xl font-bold text-slate-900 mb-3">Sosial Kemanusiaan</h3>
-                    <p class="text-slate-600 leading-relaxed text-sm">Bantuan sosial, distribusi air bersih (WASH), dan dukungan psikososial masyarakat.</p>
-                    <div class="mt-6 flex items-center gap-2 text-sm font-semibold text-slate-900 group-hover:text-emerald-600 transition-colors cursor-pointer">
-                        Pelajari Lebih Lanjut <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    <p class="text-slate-600 leading-relaxed text-sm font-medium flex-grow">Bantuan sosial, distribusi air bersih (WASH), dan dukungan psikososial masyarakat.</p>
+                    <div class="mt-8 flex items-center gap-2 text-sm font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
+                        Pelajari Lebih Lanjut <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
                     </div>
                 </div>
             </div>
@@ -379,109 +391,110 @@
     <!-- 5. FITUR DIGITAL UNGGULAN (Dark Section) -->
     <section class="py-24 bg-slate-900 text-white overflow-hidden relative">
         <!-- Stripe-like background glow -->
-        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent pointer-events-none"></div>
+        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-slate-700 via-transparent to-transparent pointer-events-none"></div>
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div class="grid lg:grid-cols-2 gap-16 items-center">
                 
                 <!-- Content -->
                 <div>
-                    <h2 class="text-xs sm:text-sm font-bold tracking-widest text-pmi-500 uppercase mb-3 border-b border-pmi-500/30 pb-2 inline-block">Transformasi Digital</h2>
-                    <h3 class="text-3xl lg:text-5xl font-bold mb-6 leading-tight">Satu Platform, <br/><span class="text-slate-300">Jutaan Manfaat.</span></h3>
-                    <p class="text-slate-400 text-base sm:text-lg mb-10 leading-relaxed">
+                    <h2 class="text-xs sm:text-sm font-extrabold tracking-widest text-pmi-500 uppercase mb-4 border-b border-pmi-500/30 pb-2 inline-block">Transformasi Digital</h2>
+                    <h3 class="text-4xl lg:text-5xl font-black mb-6 leading-[1.1] tracking-tight">Satu Platform, <br/><span class="text-slate-400">Jutaan Manfaat.</span></h3>
+                    <p class="text-slate-400 text-base sm:text-lg mb-12 leading-relaxed font-medium">
                         Kami menghadirkan inovasi teknologi untuk memastikan setiap bantuan, tetes darah, dan tenaga relawan tersalurkan dengan presisi, cepat, dan transparan melalui sistem terintegrasi.
                     </p>
                     
-                    <div class="grid sm:grid-cols-2 gap-x-6 gap-y-8">
-                        <div class="flex gap-4 items-start">
-                            <div class="mt-1 w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-pmi-400 shrink-0 border border-slate-700">
+                    <div class="grid sm:grid-cols-2 gap-x-8 gap-y-10">
+                        <div class="flex gap-4 items-start group">
+                            <div class="mt-1 w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-pmi-400 shrink-0 border border-slate-700 group-hover:bg-pmi-600 group-hover:text-white transition-colors group-hover:border-transparent shadow-lg">
                                 <i data-lucide="smartphone" class="w-5 h-5"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold text-white mb-1">Aplikasi Mobile</h4>
-                                <p class="text-sm text-slate-400">Akses E-Kartu Donor & Tracking pergerakan Ambulans.</p>
+                                <h4 class="font-bold text-white mb-2 text-lg">Aplikasi Mobile</h4>
+                                <p class="text-sm text-slate-400 font-medium leading-relaxed">Akses E-Kartu Donor & Tracking pergerakan Ambulans secara realtime.</p>
                             </div>
                         </div>
-                        <div class="flex gap-4 items-start">
-                            <div class="mt-1 w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-pmi-400 shrink-0 border border-slate-700">
+                        <div class="flex gap-4 items-start group">
+                            <div class="mt-1 w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-pmi-400 shrink-0 border border-slate-700 group-hover:bg-pmi-600 group-hover:text-white transition-colors group-hover:border-transparent shadow-lg">
                                 <i data-lucide="map-pin" class="w-5 h-5"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold text-white mb-1">GIS Bencana</h4>
-                                <p class="text-sm text-slate-400">Pemetaan interaktif lokasi rawan & shelter pengungsian.</p>
+                                <h4 class="font-bold text-white mb-2 text-lg">GIS Bencana</h4>
+                                <p class="text-sm text-slate-400 font-medium leading-relaxed">Pemetaan interaktif lokasi rawan, posko & shelter pengungsian.</p>
                             </div>
                         </div>
-                        <div class="flex gap-4 items-start">
-                            <div class="mt-1 w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-pmi-400 shrink-0 border border-slate-700">
+                        <div class="flex gap-4 items-start group">
+                            <div class="mt-1 w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-pmi-400 shrink-0 border border-slate-700 group-hover:bg-pmi-600 group-hover:text-white transition-colors group-hover:border-transparent shadow-lg">
                                 <i data-lucide="users" class="w-5 h-5"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold text-white mb-1">Portal Relawan</h4>
-                                <p class="text-sm text-slate-400">Sistem E-Learning, Database KSR, & Sertifikat Digital.</p>
+                                <h4 class="font-bold text-white mb-2 text-lg">Portal Relawan</h4>
+                                <p class="text-sm text-slate-400 font-medium leading-relaxed">Sistem E-Learning, Database terpusat KSR, & Sertifikat Digital.</p>
                             </div>
                         </div>
-                        <div class="flex gap-4 items-start">
-                            <div class="mt-1 w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-pmi-400 shrink-0 border border-slate-700">
+                        <div class="flex gap-4 items-start group">
+                            <div class="mt-1 w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-pmi-400 shrink-0 border border-slate-700 group-hover:bg-pmi-600 group-hover:text-white transition-colors group-hover:border-transparent shadow-lg">
                                 <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold text-white mb-1">SIM Terintegrasi</h4>
-                                <p class="text-sm text-slate-400">Dashboard Pengurus untuk monitor KPI & Transparansi.</p>
+                                <h4 class="font-bold text-white mb-2 text-lg">SIM Terintegrasi</h4>
+                                <p class="text-sm text-slate-400 font-medium leading-relaxed">Dashboard Eksekutif untuk monitor KPI & Transparansi Donasi.</p>
                             </div>
                         </div>
                     </div>
 
-                    <a href="#" class="mt-12 text-white font-semibold flex items-center gap-2 hover:text-pmi-400 transition-colors group inline-flex border border-slate-700 px-6 py-3 rounded-full hover:border-pmi-500 hover:bg-pmi-600/10">
-                        Jelajahi Portal Internal <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                    <a href="#" class="mt-14 text-white font-bold flex items-center gap-3 hover:text-white transition-all group inline-flex border border-slate-700 px-8 py-4 rounded-2xl hover:border-pmi-500 hover:bg-pmi-600/10 shadow-lg">
+                        Jelajahi Portal Internal <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1.5 transition-transform"></i>
                     </a>
                 </div>
                 
                 <!-- Abstract UI Graphic -->
-                <div class="relative">
-                    <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl p-6 sm:p-8 border border-slate-700 shadow-2xl relative z-10 transform sm:-rotate-2 transition-transform hover:rotate-0 duration-500">
-                        <div class="flex justify-between items-center mb-8">
-                            <div class="flex gap-2">
-                                <div class="w-3 h-3 rounded-full bg-slate-600"></div>
-                                <div class="w-3 h-3 rounded-full bg-slate-600"></div>
+                <div class="relative mt-10 lg:mt-0">
+                    <div class="bg-slate-800/80 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-slate-700 shadow-2xl relative z-10 transform lg:-rotate-3 transition-transform hover:rotate-0 duration-700">
+                        <div class="flex justify-between items-center mb-8 border-b border-slate-700 pb-4">
+                            <div class="flex gap-2.5">
+                                <div class="w-3.5 h-3.5 rounded-full bg-slate-600"></div>
+                                <div class="w-3.5 h-3.5 rounded-full bg-slate-600"></div>
                             </div>
-                            <div class="h-8 w-8 bg-slate-700 rounded-full border border-slate-600 flex justify-center items-center">
-                                <i data-lucide="user" class="w-4 h-4 text-slate-400"></i>
+                            <div class="h-10 w-10 bg-slate-700/50 rounded-full border border-slate-600 flex justify-center items-center cursor-pointer hover:bg-slate-600 transition-colors">
+                                <i data-lucide="user" class="w-5 h-5 text-slate-300"></i>
                             </div>
                         </div>
-                        <div class="space-y-4">
+                        
+                        <div class="space-y-5">
                             <!-- Graph Placeholder -->
-                            <div class="h-32 sm:h-40 bg-slate-700/30 rounded-xl border border-slate-600/50 p-4 flex flex-col justify-end relative overflow-hidden">
+                            <div class="h-40 sm:h-48 bg-slate-900/50 rounded-2xl border border-slate-700/50 p-5 flex flex-col justify-end relative overflow-hidden group cursor-pointer">
                                 <!-- Fake graph bars -->
-                                <div class="flex gap-2 items-end h-full w-full opacity-60">
-                                    <div class="w-1/6 bg-pmi-500 rounded-t-sm h-1/3"></div>
-                                    <div class="w-1/6 bg-pmi-500 rounded-t-sm h-2/3"></div>
-                                    <div class="w-1/6 bg-pmi-500 rounded-t-sm h-1/2"></div>
-                                    <div class="w-1/6 bg-pmi-500 rounded-t-sm h-full"></div>
-                                    <div class="w-1/6 bg-pmi-500 rounded-t-sm h-3/4"></div>
-                                    <div class="w-1/6 bg-pmi-500 rounded-t-sm h-5/6"></div>
+                                <div class="flex gap-3 items-end h-full w-full opacity-70 group-hover:opacity-100 transition-opacity">
+                                    <div class="w-1/6 bg-gradient-to-t from-pmi-600 to-pmi-400 rounded-t-md h-1/3 hover:brightness-125 transition-all"></div>
+                                    <div class="w-1/6 bg-gradient-to-t from-pmi-600 to-pmi-400 rounded-t-md h-2/3 hover:brightness-125 transition-all"></div>
+                                    <div class="w-1/6 bg-gradient-to-t from-pmi-600 to-pmi-400 rounded-t-md h-1/2 hover:brightness-125 transition-all"></div>
+                                    <div class="w-1/6 bg-gradient-to-t from-pmi-600 to-pmi-400 rounded-t-md h-full hover:brightness-125 transition-all"></div>
+                                    <div class="w-1/6 bg-gradient-to-t from-pmi-600 to-pmi-400 rounded-t-md h-3/4 hover:brightness-125 transition-all"></div>
+                                    <div class="w-1/6 bg-gradient-to-t from-pmi-600 to-pmi-400 rounded-t-md h-5/6 hover:brightness-125 transition-all"></div>
                                 </div>
-                                <div class="absolute bottom-4 left-4">
-                                    <div class="h-4 w-24 bg-slate-300 rounded mb-2"></div>
-                                    <div class="h-3 w-16 bg-slate-500 rounded"></div>
+                                <div class="absolute top-5 left-5">
+                                    <div class="text-xs font-bold text-slate-400 mb-1 tracking-widest uppercase">Statistik Relawan Aktif</div>
+                                    <div class="text-2xl font-black text-white">1,248 <span class="text-sm font-medium text-green-400">+12%</span></div>
                                 </div>
                             </div>
                             
-                            <div class="flex flex-col sm:flex-row gap-4">
-                                <div class="h-24 w-full sm:w-1/2 bg-pmi-600/20 border border-pmi-500/30 rounded-xl p-4 flex flex-col justify-center transition-all hover:bg-pmi-600/30 cursor-pointer">
-                                    <i data-lucide="droplet" class="text-pmi-400 mb-2 w-6 h-6"></i>
-                                    <div class="h-3 w-2/3 bg-pmi-400/50 rounded mb-1.5"></div>
-                                    <div class="h-2 w-1/3 bg-pmi-400/30 rounded"></div>
+                            <div class="flex flex-col sm:flex-row gap-5">
+                                <div class="h-28 w-full sm:w-1/2 bg-gradient-to-br from-pmi-600/20 to-transparent border border-pmi-500/30 rounded-2xl p-5 flex flex-col justify-center transition-all hover:bg-pmi-600/30 hover:border-pmi-500/50 cursor-pointer">
+                                    <i data-lucide="droplet" class="text-pmi-400 mb-3 w-7 h-7"></i>
+                                    <div class="h-3 w-3/4 bg-pmi-400/50 rounded-full mb-2"></div>
+                                    <div class="h-2 w-1/2 bg-pmi-400/30 rounded-full"></div>
                                 </div>
-                                <div class="h-24 w-full sm:w-1/2 bg-slate-700/50 border border-slate-600/50 rounded-xl p-4 flex flex-col justify-center transition-all hover:bg-slate-700 cursor-pointer">
-                                    <i data-lucide="truck" class="text-slate-400 mb-2 w-6 h-6"></i>
-                                    <div class="h-3 w-2/3 bg-slate-400/50 rounded mb-1.5"></div>
-                                    <div class="h-2 w-1/3 bg-slate-500/50 rounded"></div>
+                                <div class="h-28 w-full sm:w-1/2 bg-slate-800 border border-slate-700 rounded-2xl p-5 flex flex-col justify-center transition-all hover:bg-slate-700 cursor-pointer">
+                                    <i data-lucide="truck" class="text-slate-400 mb-3 w-7 h-7"></i>
+                                    <div class="h-3 w-3/4 bg-slate-500/50 rounded-full mb-2"></div>
+                                    <div class="h-2 w-1/2 bg-slate-600/50 rounded-full"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- Ambient Glow -->
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-pmi-600/20 blur-[100px] -z-10 rounded-full pointer-events-none"></div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-pmi-600/20 blur-[120px] -z-10 rounded-full pointer-events-none"></div>
                 </div>
 
             </div>
@@ -489,181 +502,180 @@
     </section>
 
     <!-- 6. BERITA & AGENDA -->
-    <section class="py-20 bg-slate-50">
+    <section class="py-24 bg-slate-50 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-4">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-6 border-b border-slate-200 pb-6">
                 <div>
-                    <h2 class="text-3xl font-bold text-slate-900 mb-2">Berita & Agenda</h2>
-                    <p class="text-slate-600">Kabar terbaru dari kegiatan kepalangmerahan di Lombok Barat.</p>
+                    <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mb-3 tracking-tight">Berita & Agenda</h2>
+                    <p class="text-slate-600 font-medium text-lg">Kabar terbaru dari kegiatan kemanusiaan di Lombok Barat.</p>
                 </div>
-                <a href="#" class="inline-flex items-center gap-2 text-pmi-600 font-semibold hover:text-pmi-700 transition-colors group">
+                <a href="#" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-slate-200 text-slate-700 font-bold hover:text-pmi-600 hover:border-pmi-200 hover:bg-pmi-50 transition-all shadow-sm group">
                     Lihat Semua <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
                 </a>
             </div>
 
-            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- News 1 -->
-                <div class="group cursor-pointer">
-                    <div class="w-full h-56 rounded-2xl bg-slate-200 mb-4 overflow-hidden relative shadow-sm border border-slate-100">
-                        <!-- Placeholder for image, replace src with real image url -->
-                        <div class="absolute inset-0 bg-slate-200 group-hover:scale-105 transition-transform duration-500 flex items-center justify-center">
-                            <i data-lucide="image" class="w-10 h-10 text-slate-400"></i>
-                        </div>
-                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-pmi-600 shadow-sm">
+                <div class="group cursor-pointer flex flex-col">
+                    <div class="w-full h-64 rounded-3xl bg-slate-200 mb-5 overflow-hidden relative shadow-sm border border-slate-100">
+                        <img src="https://images.unsplash.com/photo-1593113565694-c6f175aeb1c2?auto=format&fit=crop&q=80&w=800" alt="News Image" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-black tracking-wide uppercase text-pmi-600 shadow-md">
                             Bencana
                         </div>
                     </div>
-                    <div class="flex items-center gap-3 text-xs font-semibold mb-3 text-slate-500">
-                        <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> 24 Okt 2026</span>
+                    <div class="flex items-center gap-3 text-sm font-bold mb-3 text-slate-500">
+                        <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4 text-pmi-500"></i> 24 Okt 2026</span>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 leading-snug group-hover:text-pmi-600 transition-colors">
+                    <h3 class="text-xl font-bold text-slate-900 leading-snug group-hover:text-pmi-600 transition-colors mb-3">
                         PMI Lobar Distribusikan 50.000 Liter Air Bersih ke Sekotong
                     </h3>
+                    <p class="text-slate-600 text-sm font-medium line-clamp-2">Merespon kekeringan panjang, puluhan relawan diberangkatkan untuk mendistribusikan air bersih di 5 desa terdampak.</p>
                 </div>
 
                 <!-- News 2 -->
-                <div class="group cursor-pointer">
-                    <div class="w-full h-56 rounded-2xl bg-slate-200 mb-4 overflow-hidden relative shadow-sm border border-slate-100">
-                        <div class="absolute inset-0 bg-slate-200 group-hover:scale-105 transition-transform duration-500 flex items-center justify-center">
-                            <i data-lucide="image" class="w-10 h-10 text-slate-400"></i>
-                        </div>
-                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-pmi-600 shadow-sm">
+                <div class="group cursor-pointer flex flex-col">
+                    <div class="w-full h-64 rounded-3xl bg-slate-200 mb-5 overflow-hidden relative shadow-sm border border-slate-100">
+                        <img src="https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&q=80&w=800" alt="News Image" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-black tracking-wide uppercase text-pmi-600 shadow-md">
                             Donor Darah
                         </div>
                     </div>
-                    <div class="flex items-center gap-3 text-xs font-semibold mb-3 text-slate-500">
-                        <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> 22 Okt 2026</span>
+                    <div class="flex items-center gap-3 text-sm font-bold mb-3 text-slate-500">
+                        <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4 text-pmi-500"></i> 22 Okt 2026</span>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 leading-snug group-hover:text-pmi-600 transition-colors">
+                    <h3 class="text-xl font-bold text-slate-900 leading-snug group-hover:text-pmi-600 transition-colors mb-3">
                         Peringatan Hari Relawan: Targetkan 1000 Kantong Darah
                     </h3>
+                    <p class="text-slate-600 text-sm font-medium line-clamp-2">Menggandeng berbagai instansi pemerintah, PMI gelar aksi donor massal serentak di alun-alun kabupaten.</p>
                 </div>
 
                 <!-- News 3 -->
-                <div class="group cursor-pointer">
-                    <div class="w-full h-56 rounded-2xl bg-slate-200 mb-4 overflow-hidden relative shadow-sm border border-slate-100">
-                        <div class="absolute inset-0 bg-slate-200 group-hover:scale-105 transition-transform duration-500 flex items-center justify-center">
-                            <i data-lucide="image" class="w-10 h-10 text-slate-400"></i>
-                        </div>
-                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-pmi-600 shadow-sm">
+                <div class="group cursor-pointer flex flex-col">
+                    <div class="w-full h-64 rounded-3xl bg-slate-200 mb-5 overflow-hidden relative shadow-sm border border-slate-100">
+                        <img src="https://images.unsplash.com/photo-1588775005506-cc9c8378ec4b?auto=format&fit=crop&q=80&w=800" alt="News Image" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-black tracking-wide uppercase text-pmi-600 shadow-md">
                             Diklat
                         </div>
                     </div>
-                    <div class="flex items-center gap-3 text-xs font-semibold mb-3 text-slate-500">
-                        <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> 20 Okt 2026</span>
+                    <div class="flex items-center gap-3 text-sm font-bold mb-3 text-slate-500">
+                        <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4 text-pmi-500"></i> 20 Okt 2026</span>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 leading-snug group-hover:text-pmi-600 transition-colors">
+                    <h3 class="text-xl font-bold text-slate-900 leading-snug group-hover:text-pmi-600 transition-colors mb-3">
                         Pelatihan Water Rescue untuk Relawan KSR se-Lombok Barat
                     </h3>
+                    <p class="text-slate-600 text-sm font-medium line-clamp-2">Peningkatan kapasitas relawan dalam menghadapi potensi bencana banjir dan musibah di wilayah perairan.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- 7. FOOTER (Mega Directory Sesuai Dokumen) -->
-    <footer class="bg-slate-900 pt-20 pb-10 border-t border-slate-800">
+    <footer class="bg-slate-900 pt-24 pb-12 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 mb-16">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-x-8 gap-y-12 mb-16">
                 
                 <!-- Brand & Contact -->
-                <div class="col-span-2 lg:col-span-2 lg:pr-8">
-                    <div class="flex items-center gap-2 mb-6">
-                        <div class="w-8 h-8 bg-pmi-600 rounded flex items-center justify-center">
-                            <svg viewBox="0 0 24 24" fill="white" class="w-5 h-5">
+                <div class="col-span-2 lg:col-span-2 lg:pr-10">
+                    <div class="flex items-center gap-3 mb-8">
+                        <div class="w-10 h-10 bg-pmi-600 rounded-lg flex items-center justify-center shadow-lg shadow-pmi-600/20">
+                            <svg viewBox="0 0 24 24" fill="white" class="w-6 h-6">
                                 <path d="M19 10h-5V5a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v5H5a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h5v5a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-5h5a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1z"/>
                             </svg>
                         </div>
-                        <span class="font-bold text-xl text-white tracking-tight">PMI Lobar</span>
+                        <span class="font-extrabold text-2xl text-white tracking-tight">PMI Lobar</span>
                     </div>
-                    <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+                    <p class="text-slate-400 text-sm mb-8 leading-relaxed font-medium">
                         Markas Kabupaten PMI Lombok Barat.<br/>
                         Melayani masyarakat dengan prinsip dasar Gerakan Palang Merah dan Bulan Sabit Merah Internasional.
                     </p>
-                    <div class="space-y-3 text-sm text-slate-400">
-                        <p class="flex items-center gap-3"><i data-lucide="phone" class="w-4 h-4"></i> (0370) 666-118</p>
-                        <p class="flex items-center gap-3"><i data-lucide="mail" class="w-4 h-4"></i> info@pmilobar.or.id</p>
-                        <p class="flex items-start gap-3"><i data-lucide="map-pin" class="w-4 h-4 mt-1 shrink-0"></i> <span>Jl. Soekarno Hatta, Gerung, Kabupaten Lombok Barat, NTB</span></p>
+                    <div class="space-y-4 text-sm font-medium text-slate-300">
+                        <p class="flex items-center gap-3 hover:text-white transition-colors cursor-pointer w-fit"><i data-lucide="phone" class="w-5 h-5 text-slate-500"></i> (0370) 666-118</p>
+                        <p class="flex items-center gap-3 hover:text-white transition-colors cursor-pointer w-fit"><i data-lucide="mail" class="w-5 h-5 text-slate-500"></i> info@pmilobar.or.id</p>
+                        <p class="flex items-start gap-3 hover:text-white transition-colors cursor-pointer"><i data-lucide="map-pin" class="w-5 h-5 text-slate-500 shrink-0"></i> <span>Jl. Soekarno Hatta, Gerung, Kabupaten Lombok Barat, NTB</span></p>
                     </div>
                 </div>
 
                 <!-- Kolom 1: Tentang & Pengurus -->
                 <div>
-                    <h4 class="text-white font-semibold mb-4 text-sm tracking-wide uppercase">Tentang PMI</h4>
-                    <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Sejarah & Profil</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Visi, Misi & Prinsip</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Legalitas (AD/ART)</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Struktur Organisasi</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Dewan Kehormatan</a></li>
-                        <li class="pt-3"><h4 class="text-white font-semibold mb-2 text-sm tracking-wide uppercase">Pengurus</h4></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Pengurus Kabupaten</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">10 Pengurus Kecamatan</a></li>
+                    <h4 class="text-white font-bold mb-6 text-sm tracking-widest uppercase">Tentang PMI</h4>
+                    <ul class="space-y-3 text-sm font-medium text-slate-400">
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Sejarah & Profil</a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Visi, Misi & Prinsip</a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Legalitas (AD/ART)</a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Struktur Organisasi</a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Dewan Kehormatan</a></li>
+                        <li class="pt-4"><h4 class="text-white font-bold mb-3 text-sm tracking-widest uppercase">Pengurus</h4></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Pengurus Kabupaten</a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>10 Pengurus Kecamatan</a></li>
                     </ul>
                 </div>
 
                 <!-- Kolom 2: Layanan Utama -->
                 <div>
-                    <h4 class="text-white font-semibold mb-4 text-sm tracking-wide uppercase">Unit & Layanan</h4>
-                    <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Unit Donor Darah</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Layanan Kesehatan</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Ambulans Siaga</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Penanggulangan Bencana</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Sosial Kemanusiaan</a></li>
-                        <li class="pt-3"><h4 class="text-white font-semibold mb-2 text-sm tracking-wide uppercase">Relawan</h4></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">KSR, TSR & FORFIS</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">PMR (Mula, Madya, Wira)</a></li>
+                    <h4 class="text-white font-bold mb-6 text-sm tracking-widest uppercase">Unit & Layanan</h4>
+                    <ul class="space-y-3 text-sm font-medium text-slate-400">
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Unit Donor Darah</a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Layanan Kesehatan</a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Ambulans Siaga</a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Manajemen Bencana</a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Sosial Kemanusiaan</a></li>
+                        <li class="pt-4"><h4 class="text-white font-bold mb-3 text-sm tracking-widest uppercase">Relawan</h4></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>KSR, TSR & FORFIS</a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>PMR (Mula, Madya, Wira)</a></li>
                     </ul>
                 </div>
 
                 <!-- Kolom 3: Transparansi & Data -->
                 <div>
-                    <h4 class="text-white font-semibold mb-4 text-sm tracking-wide uppercase">Transparansi</h4>
-                    <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Laporan Tahunan</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Laporan Keuangan</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Laporan Donasi</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Layanan PPID</a></li>
-                        <li class="pt-3"><h4 class="text-white font-semibold mb-2 text-sm tracking-wide uppercase">Publikasi</h4></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Buku & Pedoman</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Download Center</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Data & Statistik</a></li>
+                    <h4 class="text-white font-bold mb-6 text-sm tracking-widest uppercase">Transparansi</h4>
+                    <ul class="space-y-3 text-sm font-medium text-slate-400">
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Laporan Tahunan</a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Laporan Keuangan</a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Laporan Donasi</a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Layanan PPID</a></li>
+                        <li class="pt-4"><h4 class="text-white font-bold mb-3 text-sm tracking-widest uppercase">Publikasi</h4></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Buku & Pedoman</a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Download Center</a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Data & Statistik</a></li>
                     </ul>
                 </div>
 
                 <!-- Kolom 4: Kemitraan & Internal -->
                 <div>
-                    <h4 class="text-white font-semibold mb-4 text-sm tracking-wide uppercase">Portal Digital</h4>
-                    <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="#" class="text-pmi-400 hover:text-pmi-300 font-medium transition-colors flex items-center gap-1">Login Internal <i data-lucide="lock" class="w-3 h-3"></i></a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Dashboard Pengurus</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Sistem Informasi Donor</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Karier & Rekrutmen</a></li>
-                        <li class="pt-3"><h4 class="text-white font-semibold mb-2 text-sm tracking-wide uppercase">Kemitraan</h4></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Pemerintah & Instansi</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Dunia Usaha & CSR</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors">Pengaduan & Whistleblowing</a></li>
+                    <h4 class="text-white font-bold mb-6 text-sm tracking-widest uppercase">Portal Digital</h4>
+                    <ul class="space-y-3 text-sm font-medium text-slate-400">
+                        <li><a href="#" class="text-pmi-400 hover:text-pmi-300 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-pmi-400 group-hover:scale-150 transition-transform"></span>Login Internal <i data-lucide="lock" class="w-3 h-3"></i></a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Dashboard Eksekutif</a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Sistem Info Donor</a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Karier & Rekrutmen</a></li>
+                        <li class="pt-4"><h4 class="text-white font-bold mb-3 text-sm tracking-widest uppercase">Kemitraan</h4></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Pemerintah & Instansi</a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Dunia Usaha & CSR</a></li>
+                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Pengaduan (WBS)</a></li>
                     </ul>
                 </div>
 
             </div>
 
-            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-slate-500 text-sm text-center md:text-left">
-                    &copy; 2026 PMI Kabupaten Lombok Barat. Dirancang secara modern.
+            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+                <p class="text-slate-500 text-sm font-medium text-center md:text-left">
+                    &copy; 2026 PMI Kabupaten Lombok Barat. Dirancang dengan kebanggaan untuk kemanusiaan.
                 </p>
-                <div class="flex gap-4">
-                    <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-blue-600 hover:text-white transition-colors" aria-label="Facebook">
-                        <i data-lucide="facebook" class="w-4 h-4"></i>
+                <div class="flex gap-3">
+                    <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-blue-600 hover:text-white hover:-translate-y-1 transition-all duration-300" aria-label="Facebook">
+                        <i data-lucide="facebook" class="w-5 h-5"></i>
                     </a>
-                    <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-pink-600 hover:text-white transition-colors" aria-label="Instagram">
-                        <i data-lucide="instagram" class="w-4 h-4"></i>
+                    <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-pink-600 hover:text-white hover:-translate-y-1 transition-all duration-300" aria-label="Instagram">
+                        <i data-lucide="instagram" class="w-5 h-5"></i>
                     </a>
-                    <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-red-600 hover:text-white transition-colors" aria-label="Youtube">
-                        <i data-lucide="youtube" class="w-4 h-4"></i>
+                    <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-red-600 hover:text-white hover:-translate-y-1 transition-all duration-300" aria-label="Youtube">
+                        <i data-lucide="youtube" class="w-5 h-5"></i>
                     </a>
-                    <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-green-500 hover:text-white transition-colors" aria-label="WhatsApp">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/></svg>
+                    <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-green-500 hover:text-white hover:-translate-y-1 transition-all duration-300" aria-label="WhatsApp">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/></svg>
                     </a>
                 </div>
             </div>
@@ -680,11 +692,14 @@
         
         window.addEventListener('scroll', () => {
             if (window.scrollY > 20) {
-                navbar.classList.remove('bg-transparent', 'py-5');
-                navbar.classList.add('glass-nav', 'py-3');
+                // Menambahkan efek glass dan shadow saat scroll turun
+                navbar.classList.add('glass-nav');
+                navbar.classList.remove('bg-white/50', 'border-transparent', 'py-4');
+                navbar.classList.add('py-3');
             } else {
-                navbar.classList.add('bg-transparent', 'py-5');
+                // Kembali transparan di paling atas
                 navbar.classList.remove('glass-nav', 'py-3');
+                navbar.classList.add('bg-white/50', 'border-transparent', 'py-4');
             }
         });
 
