@@ -3,719 +3,739 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Informasi PMI Kabupaten Lombok Barat</title>
+    <title>PMI Kabupaten Lombok Barat</title>
     
-    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Tailwind Configuration -->
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
-                        // Palet Warna PMI
-                        pmi: {
-                            50: '#fef2f2',
-                            100: '#fee2e2',
-                            500: '#ef4444',
-                            600: '#dc2626', // Warna Utama Merah
-                            700: '#b91c1c',
-                        }
+                        brand: {
+                            50: '#fff1f2', 100: '#ffe4e6', 200: '#fecdd3', 300: '#fda4af',
+                            400: '#fb7185', 500: '#f43f5e', 600: '#e11d48', 700: '#be123c',
+                            800: '#9f1239', 900: '#881337',
+                        },
+                        dark: '#0B1120',
+                        darker: '#060913'
                     },
                     animation: {
-                        'bounce-slow': 'bounce 3s infinite',
-                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'marquee': 'marquee 30s linear infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        marquee: { '0%': { transform: 'translateX(0%)' }, '100%': { transform: 'translateX(-50%)' } },
+                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } }
                     }
                 }
             }
         }
     </script>
-
-    <!-- Custom CSS -->
     <style>
-        body {
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .nav-scroll-wrapper {
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-behavior: smooth;
         }
-        /* Efek blur kustom untuk navbar */
-        .glass-nav {
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(226, 232, 240, 0.6);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        
+        .dropdown-menu {
+            visibility: hidden;
+            opacity: 0;
+            position: fixed;
+            top: 112px;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px) scale(0.95);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            transform-origin: center top;
+            z-index: 100;
         }
-        /* Style scrollbar agar lebih elegan */
-        ::-webkit-scrollbar {
-            width: 8px;
+        
+        .group:hover .dropdown-menu,
+        .group:focus-within .dropdown-menu {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0) scale(1);
+            pointer-events: auto;
         }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
+
+        img { transition: opacity 0.3s ease-in-out; }
     </style>
-
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-slate-50 text-slate-900 selection:bg-pmi-100 selection:text-pmi-700 min-h-screen flex flex-col">
+<body class="font-sans text-slate-600 bg-slate-50 dark:bg-dark dark:text-slate-300 antialiased selection:bg-brand-500 selection:text-white transition-colors duration-300">
 
-    <!-- 1. INFORMASI DARURAT (Top Bar) -->
-    <div class="bg-pmi-700 text-white text-xs sm:text-sm font-medium px-4 py-2.5 flex justify-between items-center relative z-50">
-        <div class="max-w-7xl mx-auto w-full flex flex-col sm:flex-row justify-between items-center gap-2">
-            <div class="flex items-center gap-2 text-center sm:text-left">
-                <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-300 animate-pulse-fast"></i>
-                <span class="opacity-90">Siaga Bencana: Kekeringan di 3 Kecamatan. Tim Relawan sedang bertugas.</span>
+    <header class="fixed w-full top-0 z-50 transition-all duration-300 shadow-sm" id="navbar">
+        <div class="bg-brand-600 dark:bg-brand-800 transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <a href="#" class="flex-shrink-0 flex items-center gap-3 cursor-pointer group">
+                        <div class="w-9 h-9 bg-white dark:bg-slate-900 rounded-lg flex items-center justify-center text-brand-600 dark:text-brand-500 font-bold text-lg shadow-md group-hover:scale-105 transition-all duration-300">
+                            <i class="fa-solid fa-plus"></i>
+                        </div>
+                        <span class="font-bold text-lg sm:text-xl text-white tracking-tight" data-i18n="logo_text">PMI <span class="font-extrabold">Lombok Barat</span></span>
+                    </a>
+
+                    <div class="flex items-center gap-2 sm:gap-4">
+                        <button id="btn-theme" class="text-white/90 hover:text-white transition-colors w-9 h-9 flex items-center justify-center rounded-full hover:bg-white/10">
+                            <i class="fa-solid fa-moon text-lg"></i>
+                        </button>
+                        
+                        <button id="btn-speaker" class="text-white/90 hover:text-white transition-colors w-9 h-9 flex items-center justify-center rounded-full hover:bg-white/10 relative">
+                            <i class="fa-solid fa-volume-xmark text-lg"></i>
+                            <span id="speaker-indicator" class="absolute top-1 right-1 w-2 h-2 bg-green-400 rounded-full hidden animate-ping"></span>
+                        </button>
+                        
+                        <div class="w-px h-5 bg-white/30 mx-1"></div>
+                        
+                        <button id="btn-lang" class="text-white/90 hover:text-white transition-colors flex items-center gap-2 px-2 py-1 rounded-full hover:bg-white/10 font-bold text-sm">
+                            <i class="fa-solid fa-globe text-lg"></i> <span id="lang-text">ID</span>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="flex items-center gap-4">
-                <span class="flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-opacity cursor-pointer">
-                    <i data-lucide="phone" class="w-3.5 h-3.5"></i> Hotline 24 Jam: 118 / (0370) 666-118
-                </span>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 border-b border-slate-200/60 dark:border-slate-800 transition-colors duration-300">
+            <div class="nav-scroll-wrapper no-scrollbar">
+                <nav class="flex items-center h-12 text-[13px] font-medium w-max min-w-full px-4 sm:px-6 lg:px-8">
+                    
+                    <a href="#" class="h-full flex items-center text-brand-600 dark:text-brand-400 font-bold border-b-2 border-brand-600 dark:border-brand-400 whitespace-nowrap shrink-0 mr-8" data-i18n="menu_home">Beranda</a>
+                    
+                    <div class="group relative h-full flex items-center shrink-0 cursor-pointer mr-8" tabindex="0">
+                        <span class="hover:text-brand-600 dark:hover:text-brand-400 flex items-center gap-1.5 transition-colors whitespace-nowrap dark:text-slate-300" data-i18n="menu_about">
+                            Tentang <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>
+                        </span>
+                        <div class="dropdown-menu w-[340px] bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-2xl rounded-2xl p-2">
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_about_1">Sejarah dan Filosofi</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_about_1_desc">Menjelaskan sejarah berdirinya PMI di wilayah tersebut, visi & misi, serta makna logo.</div>
+                            </a>
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_about_2">Nilai dan Prinsip</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_about_2_desc">Memuat penjelasan mengenai 7 Prinsip Dasar Gerakan Palang Merah dan Bulan Sabit Merah.</div>
+                            </a>
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_about_3">Legalitas Lembaga</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_about_3_desc">Berisi dasar hukum, SK pendirian, AD/ART, dan struktur organisasi secara hukum.</div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="group relative h-full flex items-center shrink-0 cursor-pointer mr-8" tabindex="0">
+                        <span class="hover:text-brand-600 dark:hover:text-brand-400 flex items-center gap-1.5 transition-colors whitespace-nowrap dark:text-slate-300" data-i18n="menu_board">
+                            Pengurus <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>
+                        </span>
+                        <div class="dropdown-menu w-[340px] bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-2xl rounded-2xl p-2">
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_board_1">Personil PMI</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_board_1_desc">Menampilkan profil Ketua, Dewan Kehormatan, Jajaran Pengurus, dan Kepala Markas/UTD.</div>
+                            </a>
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_board_2">Markas PMI</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_board_2_desc">Informasi detail mengenai fasilitas markas, jam operasional, dan struktur staf markas.</div>
+                            </a>
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_board_3">Forum PMI</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_board_3_desc">Wadah informasi mengenai rapat kerja, musyawarah, atau buletin internal keanggotaan.</div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="group relative h-full flex items-center shrink-0 cursor-pointer mr-8" tabindex="0">
+                        <span class="hover:text-brand-600 dark:hover:text-brand-400 flex items-center gap-1.5 transition-colors whitespace-nowrap dark:text-slate-300" data-i18n="menu_donor">
+                            Donor <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>
+                        </span>
+                        <div class="dropdown-menu w-[340px] bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-2xl rounded-2xl p-2">
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_donor_1">Informasi dan Jadwal</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_donor_1_desc">Memuat syarat menjadi pendonor darah, manfaat donor, dan jadwal Mobil Unit Keliling.</div>
+                            </a>
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_donor_2">Layanan dan Registrasi</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_donor_2_desc">Formulir pendaftaran online untuk pendonor, prosedur antrean, dan alur donor.</div>
+                            </a>
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_donor_3">Donor dan Donasi</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_donor_3_desc">Laman khusus donasi di luar darah (dana kemanusiaan, barang, beserta rekening resmi).</div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="group relative h-full flex items-center shrink-0 cursor-pointer mr-8" tabindex="0">
+                        <span class="hover:text-brand-600 dark:hover:text-brand-400 flex items-center gap-1.5 transition-colors whitespace-nowrap dark:text-slate-300" data-i18n="menu_health">
+                            Kesehatan <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>
+                        </span>
+                        <div class="dropdown-menu w-[340px] bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-2xl rounded-2xl p-2">
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_health_1">Layanan Kesehatan</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_health_1_desc">Informasi fasilitas Poliklinik PMI, layanan khitanan, cek golongan darah, dll.</div>
+                            </a>
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_health_2">Sosial Kemanusiaan</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_health_2_desc">Dokumentasi program pendampingan sosial (panti asuhan binaan, operasi katarak gratis).</div>
+                            </a>
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_health_3">Tanggap Bencana</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_health_3_desc">SOP kesiapsiagaan, mitigasi, dan laporan aksi respons cepat di lokasi bencana.</div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="group relative h-full flex items-center shrink-0 cursor-pointer mr-8" tabindex="0">
+                        <span class="hover:text-brand-600 dark:hover:text-brand-400 flex items-center gap-1.5 transition-colors whitespace-nowrap dark:text-slate-300" data-i18n="menu_volunteer">
+                            Relawan <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>
+                        </span>
+                        <div class="dropdown-menu w-[340px] bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-2xl rounded-2xl p-2">
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_vol_1">Unit Relawan</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_vol_1_desc">Penjelasan PMR, KSR, TSR, dan DDS sebagai ujung tombak gerakan kemanusiaan.</div>
+                            </a>
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_vol_2">Pendidikan dan Pelatihan</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_vol_2_desc">Kalender jadwal diklat, materi pelatihan, dan info sertifikasi bagi relawan.</div>
+                            </a>
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_vol_3">Daftar Relawan</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_vol_3_desc">Halaman pendaftaran online bagi masyarakat umum/pelajar yang ingin bergabung.</div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="group relative h-full flex items-center shrink-0 cursor-pointer mr-8" tabindex="0">
+                        <span class="hover:text-brand-600 dark:hover:text-brand-400 flex items-center gap-1.5 transition-colors whitespace-nowrap dark:text-slate-300" data-i18n="menu_agenda">
+                            Agenda <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>
+                        </span>
+                        <div class="dropdown-menu w-[340px] bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-2xl rounded-2xl p-2">
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_agenda_1">Sudah Berlangsung</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_agenda_1_desc">Arsip, laporan sukses, dan evaluasi kegiatan yang telah lewat.</div>
+                            </a>
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1 flex items-center gap-2">
+                                    <span data-i18n="sub_agenda_2">Sedang Berlangsung</span> <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                                </div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_agenda_2_desc">Live update atau informasi acara yang sedang berjalan hari ini / minggu ini.</div>
+                            </a>
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_agenda_3">Akan Berlangsung</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_agenda_3_desc">Kalender event mendatang beserta tautan pendaftaran peserta.</div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="group relative h-full flex items-center shrink-0 cursor-pointer mr-8" tabindex="0">
+                        <span class="hover:text-brand-600 dark:hover:text-brand-400 flex items-center gap-1.5 transition-colors whitespace-nowrap dark:text-slate-300" data-i18n="menu_info">
+                            Informasi <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>
+                        </span>
+                        <div class="dropdown-menu w-[340px] bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-2xl rounded-2xl p-2">
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_info_1">Berita</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_info_1_desc">Artikel terbaru, rilis pers (press release), dan opini/artikel kesehatan.</div>
+                            </a>
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_info_2">Galeri</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_info_2_desc">Album foto dan tautan video YouTube dokumentasi kegiatan resmi.</div>
+                            </a>
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_info_3">PPID</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_info_3_desc">Area transparansi publik berisi laporan keuangan, dokumen publik untuk diunduh.</div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="group relative h-full flex items-center shrink-0 cursor-pointer ml-auto pr-2" tabindex="0">
+                        <span class="hover:text-brand-600 dark:hover:text-brand-400 flex items-center gap-1.5 transition-colors whitespace-nowrap dark:text-slate-300" data-i18n="menu_partner">
+                            Kemitraan <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>
+                        </span>
+                        <div class="dropdown-menu w-[340px] bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-2xl rounded-2xl p-2">
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_partner_1">Mitra Vertikal</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_partner_1_desc">Daftar kerja sama dengan PMI Pusat, Provinsi, dan Institusi Pemerintahan Daerah.</div>
+                            </a>
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_partner_2">Mitra Horizontal</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_partner_2_desc">Kerja sama dengan pihak swasta, LSM, Universitas, Rumah Sakit, dan Komunitas.</div>
+                            </a>
+                            <a href="#" class="block p-3 hover:bg-brand-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                <div class="font-bold text-slate-800 dark:text-slate-100 text-sm mb-1" data-i18n="sub_partner_3">Daftar Kemitraan</div>
+                                <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-normal" data-i18n="sub_partner_3_desc">Formulir online bagi instansi yang ingin mengajukan proposal kerja sama (MoU).</div>
+                            </a>
+                        </div>
+                    </div>
+
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="relative pt-36 pb-24 lg:pt-48 lg:pb-36 overflow-hidden bg-dark transition-colors duration-300">
+            <div class="absolute inset-0">
+                <img src="https://images.unsplash.com/photo-1615461066841-6116e6e02428?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="PMI Background" class="w-full h-full object-cover opacity-20 mix-blend-overlay" draggable="false">
+                <div class="absolute inset-0 bg-gradient-to-tr from-dark via-dark/95 to-dark/40"></div>
+                <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-600/30 rounded-full blur-[120px] pointer-events-none"></div>
+                <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] pointer-events-none"></div>
+            </div>
+
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                    
+                    <div class="lg:col-span-7 max-w-3xl">
+                        <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-slate-200 text-sm font-medium mb-8 backdrop-blur-md shadow-xl cursor-default">
+                            <span class="relative flex h-2.5 w-2.5">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-500"></span>
+                            </span>
+                            <span data-i18n="hero_badge">Siaga Bencana & Layanan Darah 24 Jam</span>
+                        </div>
+                        
+                        <h1 class="text-4xl md:text-5xl lg:text-[4rem] font-extrabold text-white leading-[1.1] tracking-tight mb-6" data-i18n="hero_title">
+                            Setetes Darah Anda, <br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-300 via-brand-500 to-red-500">Nyawa Bagi Mereka.</span>
+                        </h1>
+                        
+                        <p class="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed font-light max-w-2xl" data-i18n="hero_desc">
+                            Palang Merah Indonesia hadir di garis depan untuk melayani masyarakat. Wujudkan aksi nyata kemanusiaan Anda melalui donor darah, donasi, atau bergabung sebagai relawan.
+                        </p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <a href="#jadwal" class="bg-brand-600 hover:bg-brand-500 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all shadow-xl shadow-brand-600/30 flex items-center justify-center gap-2.5 hover:-translate-y-1 active:scale-95">
+                                <i class="fa-solid fa-droplet"></i> <span data-i18n="btn_donor">Daftar Donor Darah</span>
+                            </a>
+                            <a href="#bantuan" class="bg-white/5 hover:bg-white/15 text-white border border-white/20 px-8 py-4 rounded-full font-semibold text-lg transition-all backdrop-blur-md flex items-center justify-center gap-2.5 hover:-translate-y-1 active:scale-95">
+                                <i class="fa-solid fa-hand-holding-medical text-brand-400"></i> <span data-i18n="btn_help">Butuh Bantuan</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="hidden lg:block lg:col-span-5 relative">
+                        <div class="bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-[2rem] shadow-2xl max-w-md ml-auto animate-float">
+                            <div class="flex justify-between items-start mb-6">
+                                <h3 class="text-white font-semibold text-lg flex items-center gap-2.5">
+                                    <div class="p-2 bg-white/10 rounded-lg text-brand-400"><i class="fa-solid fa-chart-pie"></i></div>
+                                    <span data-i18n="report_title">Laporan Bulan Ini</span>
+                                </h3>
+                                <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs font-bold rounded-full border border-green-500/30 flex items-center gap-1.5">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span> Live
+                                </span>
+                            </div>
+                            
+                            <div class="space-y-7">
+                                <div>
+                                    <div class="flex justify-between text-sm text-slate-300 mb-2">
+                                        <span class="font-medium" data-i18n="report_blood">Kantong Darah Terkumpul</span>
+                                        <span class="font-bold text-white">1,245 <span class="text-slate-400 font-normal">/ 1,500</span></span>
+                                    </div>
+                                    <div class="w-full bg-slate-800/80 rounded-full h-2.5 overflow-hidden border border-white/5">
+                                        <div class="bg-gradient-to-r from-brand-600 to-brand-400 h-full rounded-full relative" style="width: 83%">
+                                            <div class="absolute inset-0 bg-white/20 w-full animate-[pulse_2s_ease-in-out_infinite]"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 pt-5 border-t border-white/10">
+                                    <div class="bg-white/5 p-4 rounded-2xl border border-white/5">
+                                        <p class="text-slate-400 text-sm font-medium mb-1" data-i18n="report_vol">Relawan Aktif</p>
+                                        <div class="flex items-end gap-2">
+                                            <p class="text-3xl font-bold text-white">342</p>
+                                            <span class="text-brand-400 text-sm font-bold flex items-center mb-1"><i class="fa-solid fa-arrow-up-right-dots mr-1"></i>+12%</span>
+                                        </div>
+                                    </div>
+                                    <div class="bg-white/5 p-4 rounded-2xl border border-white/5">
+                                        <p class="text-slate-400 text-sm font-medium mb-1" data-i18n="report_med">Aksi Medis</p>
+                                        <div class="flex items-end gap-2">
+                                            <p class="text-3xl font-bold text-white">56</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="relative z-20 -mt-12 mb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 auto-rows-[140px] md:auto-rows-[170px]">
+                
+                <a href="tel:118" class="group relative col-span-2 md:col-span-1 row-span-1 md:row-span-2 bg-gradient-to-br from-red-500 to-red-600 dark:from-red-600 dark:to-red-800 rounded-[2rem] p-6 flex flex-col justify-between hover:shadow-2xl hover:shadow-red-500/30 transition-all duration-300 overflow-hidden text-white border border-red-400/30">
+                    <div class="absolute -right-4 -bottom-4 opacity-20 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
+                        <i class="fa-solid fa-truck-medical text-8xl md:text-9xl"></i>
+                    </div>
+                    <div class="w-12 h-12 md:w-14 md:h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-xl md:text-2xl shadow-inner group-hover:scale-110 transition-transform duration-300 mb-4 md:mb-0">
+                        <i class="fa-solid fa-phone-volume animate-pulse"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <span class="font-black text-xl md:text-2xl block mb-1 leading-tight" data-i18n="action_2">Panggil<br class="hidden md:block">Ambulans</span>
+                        <span class="text-xs md:text-sm text-red-100 font-medium tracking-wide">Layanan 24/7</span>
+                    </div>
+                </a>
+
+                <a href="#stok-darah" class="group col-span-2 md:col-span-2 row-span-1 bg-white dark:bg-slate-800 rounded-[2rem] p-6 border border-slate-100 dark:border-slate-700 flex items-center justify-between hover:shadow-xl hover:border-brand-200 dark:hover:border-brand-800 transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-brand-50 dark:from-slate-700/50 to-transparent"></div>
+                    <div class="relative z-10 flex items-center gap-5">
+                        <div class="w-14 h-14 bg-brand-50 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 group-hover:bg-brand-600 group-hover:text-white transition-all duration-300 shadow-sm group-hover:-rotate-3 shrink-0">
+                            <i class="fa-solid fa-droplet"></i>
+                        </div>
+                        <div>
+                            <span class="font-bold text-slate-900 dark:text-white text-lg md:text-xl block mb-1" data-i18n="action_1">Cek Stok Darah</span>
+                            <span class="text-sm text-slate-500 dark:text-slate-400">Update data real-time dari UTD.</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-right text-slate-300 dark:text-slate-600 group-hover:text-brand-500 transition-colors group-hover:translate-x-1 relative z-10 hidden sm:block"></i>
+                </a>
+
+                <a href="#" class="group col-span-1 md:col-span-1 row-span-1 bg-white dark:bg-slate-800 rounded-[2rem] p-5 md:p-6 border border-slate-100 dark:border-slate-700 flex flex-col justify-between hover:shadow-xl hover:border-blue-200 dark:hover:border-blue-800 transition-all duration-300">
+                    <div class="w-12 h-12 bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center text-xl group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-sm group-hover:-rotate-3">
+                        <i class="fa-solid fa-file-medical"></i>
+                    </div>
+                    <span class="font-bold text-slate-900 dark:text-white text-sm md:text-base leading-tight mt-2" data-i18n="action_3">Permohonan<br>Darah</span>
+                </a>
+
+                <a href="#" class="group col-span-1 md:col-span-1 row-span-1 bg-white dark:bg-slate-800 rounded-[2rem] p-5 md:p-6 border border-slate-100 dark:border-slate-700 flex flex-col justify-between hover:shadow-xl hover:border-amber-200 dark:hover:border-amber-800 transition-all duration-300">
+                    <div class="w-12 h-12 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded-2xl flex items-center justify-center text-xl group-hover:scale-110 group-hover:bg-amber-600 group-hover:text-white transition-all duration-300 shadow-sm group-hover:rotate-3">
+                        <i class="fa-solid fa-bullhorn"></i>
+                    </div>
+                    <span class="font-bold text-slate-900 dark:text-white text-sm md:text-base leading-tight mt-2" data-i18n="action_4">Lapor<br>Bencana</span>
+                </a>
+
+                <a href="#" class="group col-span-2 md:col-span-2 row-span-1 bg-slate-900 dark:bg-slate-800 rounded-[2rem] p-6 border border-slate-800 dark:border-slate-700 flex items-center justify-between hover:shadow-xl transition-all duration-300 relative overflow-hidden text-white">
+                    <div class="absolute -left-6 top-1/2 -translate-y-1/2 opacity-10 group-hover:scale-110 transition-transform duration-500">
+                        <i class="fa-solid fa-medal text-8xl"></i>
+                    </div>
+                    <div class="relative z-10 flex items-center gap-5 ml-8 sm:ml-12">
+                        <div class="w-12 h-12 bg-white/10 backdrop-blur-sm text-brand-400 rounded-2xl flex items-center justify-center text-xl group-hover:scale-110 group-hover:bg-brand-500 group-hover:text-white transition-all duration-300 shadow-sm group-hover:-rotate-3 shrink-0">
+                            <i class="fa-solid fa-download"></i>
+                        </div>
+                        <div>
+                            <span class="font-bold text-white text-lg md:text-xl block mb-1" data-i18n="action_5">Unduh E-Sertifikat</span>
+                            <span class="text-sm text-slate-400">Apresiasi untuk pahlawan kemanusiaan.</span>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <section id="stok-darah" class="py-20 bg-slate-50 dark:bg-dark transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                    <div class="max-w-2xl">
+                        <span class="text-brand-600 dark:text-brand-400 font-bold uppercase tracking-wider text-sm mb-2 block" data-i18n="stock_subtitle">Layanan Darah</span>
+                        <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4" data-i18n="stock_title">Stok Darah Real-Time</h2>
+                        <p class="text-slate-600 dark:text-slate-400 text-lg" data-i18n="stock_desc">Pantau ketersediaan kantong darah di Unit Transfusi Darah (UTD) kami saat ini.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                    <div class="bg-white dark:bg-slate-800 rounded-[2rem] p-6 md:p-8 border border-slate-200 dark:border-slate-700 shadow-sm hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+                        <div class="absolute -right-8 -top-8 text-slate-50 dark:text-slate-700/50 opacity-60 text-9xl transform group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500"><i class="fa-solid fa-droplet"></i></div>
+                        <div class="relative z-10 flex justify-between items-start">
+                            <div>
+                                <p class="text-sm font-semibold text-slate-400 dark:text-slate-500 mb-2 uppercase">Golongan</p>
+                                <h3 class="text-5xl font-black text-brand-600 dark:text-brand-500 flex items-baseline">A<span class="text-3xl font-bold ml-1">+</span></h3>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-4xl font-bold text-slate-800 dark:text-white">45</p>
+                                <p class="text-xs font-semibold text-slate-400 uppercase mt-1">Kantong</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-slate-800 rounded-[2rem] p-6 md:p-8 border border-slate-200 dark:border-slate-700 shadow-sm hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+                        <div class="absolute -right-8 -top-8 text-slate-50 dark:text-slate-700/50 opacity-60 text-9xl transform group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500"><i class="fa-solid fa-droplet"></i></div>
+                        <div class="relative z-10 flex justify-between items-start">
+                            <div>
+                                <p class="text-sm font-semibold text-slate-400 dark:text-slate-500 mb-2 uppercase">Golongan</p>
+                                <h3 class="text-5xl font-black text-brand-600 dark:text-brand-500 flex items-baseline">B<span class="text-3xl font-bold ml-1">+</span></h3>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-4xl font-bold text-slate-800 dark:text-white">12</p>
+                                <p class="text-xs font-semibold text-slate-400 uppercase mt-1">Kantong</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 rounded-[2rem] p-6 md:p-8 border border-slate-200 dark:border-slate-700 shadow-sm hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+                        <div class="absolute -right-8 -top-8 text-slate-50 dark:text-slate-700/50 opacity-60 text-9xl transform group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500"><i class="fa-solid fa-droplet"></i></div>
+                        <div class="relative z-10 flex justify-between items-start">
+                            <div>
+                                <p class="text-sm font-semibold text-slate-400 dark:text-slate-500 mb-2 uppercase">Golongan</p>
+                                <h3 class="text-5xl font-black text-brand-600 dark:text-brand-500 flex items-baseline">O<span class="text-3xl font-bold ml-1">+</span></h3>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-4xl font-bold text-slate-800 dark:text-white">89</p>
+                                <p class="text-xs font-semibold text-slate-400 uppercase mt-1">Kantong</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 rounded-[2rem] p-6 md:p-8 border border-brand-200 dark:border-brand-900 shadow-md shadow-brand-100 dark:shadow-none hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+                        <div class="absolute -right-8 -top-8 text-brand-50 dark:text-brand-900/30 opacity-60 text-9xl transform group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500"><i class="fa-solid fa-droplet"></i></div>
+                        <div class="relative z-10 flex justify-between items-start">
+                            <div>
+                                <p class="text-sm font-semibold text-brand-500 mb-2 uppercase">Golongan</p>
+                                <h3 class="text-5xl font-black text-brand-600 dark:text-brand-400 flex items-baseline">AB<span class="text-3xl font-bold ml-1">+</span></h3>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-4xl font-bold text-slate-900 dark:text-white animate-pulse">3</p>
+                                <p class="text-xs font-semibold text-slate-400 uppercase mt-1">Kantong</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-white dark:bg-slate-900 overflow-hidden border-t border-slate-100 dark:border-slate-800 transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+                <p class="text-center text-xs font-bold text-slate-400 uppercase tracking-[0.2em]" data-i18n="partner_title">Dipercaya & Didukung Oleh Mitra Strategis</p>
+            </div>
+            
+            <div class="relative flex overflow-x-hidden">
+                <div class="absolute top-0 bottom-0 left-0 w-16 md:w-32 bg-gradient-to-r from-white dark:from-slate-900 to-transparent z-10 pointer-events-none"></div>
+                <div class="absolute top-0 bottom-0 right-0 w-16 md:w-32 bg-gradient-to-l from-white dark:from-slate-900 to-transparent z-10 pointer-events-none"></div>
+                
+                <div class="animate-marquee whitespace-nowrap flex items-center gap-12 md:gap-20 py-4 px-8 w-max">
+                    <div class="text-4xl text-slate-300 dark:text-slate-700 flex items-center gap-3"><i class="fa-solid fa-building-columns"></i> <span class="text-xl font-bold font-sans">PEMKAB</span></div>
+                    <div class="text-4xl text-slate-300 dark:text-slate-700 flex items-center gap-3"><i class="fa-solid fa-hospital"></i> <span class="text-xl font-bold font-sans">RSUD Mitra</span></div>
+                    <div class="text-4xl text-slate-300 dark:text-slate-700 flex items-center gap-3"><i class="fa-solid fa-graduation-cap"></i> <span class="text-xl font-bold font-sans">Universitas</span></div>
+                    <div class="text-4xl text-slate-300 dark:text-slate-700 flex items-center gap-3"><i class="fa-solid fa-industry"></i> <span class="text-xl font-bold font-sans">BUMN CSR</span></div>
+                    <div class="text-4xl text-slate-300 dark:text-slate-700 flex items-center gap-3"><i class="fa-solid fa-house-medical"></i> <span class="text-xl font-bold font-sans">Dinkes</span></div>
+                    <div class="text-4xl text-slate-300 dark:text-slate-700 flex items-center gap-3"><i class="fa-solid fa-shield-halved"></i> <span class="text-xl font-bold font-sans">BPBD</span></div>
+                    
+                    <div class="text-4xl text-slate-300 dark:text-slate-700 flex items-center gap-3"><i class="fa-solid fa-building-columns"></i> <span class="text-xl font-bold font-sans">PEMKAB</span></div>
+                    <div class="text-4xl text-slate-300 dark:text-slate-700 flex items-center gap-3"><i class="fa-solid fa-hospital"></i> <span class="text-xl font-bold font-sans">RSUD Mitra</span></div>
+                    <div class="text-4xl text-slate-300 dark:text-slate-700 flex items-center gap-3"><i class="fa-solid fa-graduation-cap"></i> <span class="text-xl font-bold font-sans">Universitas</span></div>
+                    <div class="text-4xl text-slate-300 dark:text-slate-700 flex items-center gap-3"><i class="fa-solid fa-industry"></i> <span class="text-xl font-bold font-sans">BUMN CSR</span></div>
+                    <div class="text-4xl text-slate-300 dark:text-slate-700 flex items-center gap-3"><i class="fa-solid fa-house-medical"></i> <span class="text-xl font-bold font-sans">Dinkes</span></div>
+                    <div class="text-4xl text-slate-300 dark:text-slate-700 flex items-center gap-3"><i class="fa-solid fa-shield-halved"></i> <span class="text-xl font-bold font-sans">BPBD</span></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="bg-brand-600 dark:bg-brand-900 text-white py-6 border-b border-brand-700 dark:border-brand-950 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
+                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl animate-pulse shrink-0">
+                    <i class="fa-solid fa-phone-volume"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg leading-none mb-1.5" data-i18n="footer_hotline">Hotline Gawat Darurat (24 Jam)</h4>
+                    <p class="text-brand-100 text-sm" data-i18n="footer_hotline_desc">Ambulans, Kecelakaan, Bencana Alam & Permintaan Darah</p>
+                </div>
+            </div>
+            <div class="text-center md:text-right">
+                <a href="tel:0370123456" class="text-3xl font-black tracking-wider hover:text-brand-100 transition-colors">0370 - 123456</a>
+                <p class="text-xs text-brand-100 mt-1.5 uppercase tracking-widest font-semibold">Markas Buka: Senin - Jumat (08.00 - 16.00)</p>
             </div>
         </div>
     </div>
 
-    <!-- 2. NAVBAR (Sticky Navbar) -->
-    <nav id="navbar" class="sticky top-0 w-full z-40 transition-all duration-300 bg-white/50 backdrop-blur-sm border-b border-transparent py-4">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center">
-                <!-- Logo -->
-                <a href="#" class="flex items-center gap-3 cursor-pointer group">
-                    <div class="w-11 h-11 bg-gradient-to-br from-pmi-500 to-pmi-700 rounded-xl flex items-center justify-center shadow-lg shadow-pmi-600/30 group-hover:scale-105 transition-transform duration-300">
-                        <svg viewBox="0 0 24 24" fill="white" class="w-6 h-6">
-                            <path d="M19 10h-5V5a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v5H5a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h5v5a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-5h5a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1z"/>
-                        </svg>
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="font-extrabold text-xl leading-tight tracking-tight text-slate-900 group-hover:text-pmi-600 transition-colors">PMI</span>
-                        <span class="text-[10px] sm:text-xs font-bold text-slate-500 tracking-widest uppercase">Lombok Barat</span>
-                    </div>
-                </a>
-
-                <!-- Desktop Menu -->
-                <div class="hidden lg:flex items-center space-x-8">
-                    <!-- Dropdown Item -->
-                    <div class="relative group">
-                        <button class="flex items-center gap-1.5 text-slate-600 hover:text-pmi-600 font-semibold py-2 transition-colors">
-                            Tentang PMI
-                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-hover:text-pmi-600 transition-colors"></i>
-                        </button>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-white shadow-xl shadow-slate-200/50 rounded-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-2 group-hover:translate-y-0">
-                            <div class="p-2 flex flex-col gap-1">
-                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Sejarah & Profil</a>
-                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Legalitas & AD/ART</a>
-                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Struktur Organisasi</a>
-                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Pengurus Kecamatan</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Dropdown Item -->
-                    <div class="relative group">
-                        <button class="flex items-center gap-1.5 text-slate-600 hover:text-pmi-600 font-semibold py-2 transition-colors">
-                            Layanan
-                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-hover:text-pmi-600 transition-colors"></i>
-                        </button>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-white shadow-xl shadow-slate-200/50 rounded-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-2 group-hover:translate-y-0">
-                            <div class="p-2 flex flex-col gap-1">
-                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Unit Donor Darah</a>
-                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Kesehatan & Ambulans</a>
-                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Manajemen Bencana</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Dropdown Item -->
-                    <div class="relative group">
-                        <button class="flex items-center gap-1.5 text-slate-600 hover:text-pmi-600 font-semibold py-2 transition-colors">
-                            Informasi
-                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-hover:text-pmi-600 transition-colors"></i>
-                        </button>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-white shadow-xl shadow-slate-200/50 rounded-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-2 group-hover:translate-y-0">
-                            <div class="p-2 flex flex-col gap-1">
-                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Berita & Agenda</a>
-                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Data & Statistik</a>
-                                <a href="#" class="px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Transparansi Laporan</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <a href="#" class="text-slate-600 hover:text-pmi-600 font-semibold transition-colors">Portal Internal</a>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="hidden lg:flex items-center space-x-4">
-                    <button class="text-slate-500 hover:text-pmi-600 p-2 transition-colors">
-                        <i data-lucide="search" class="w-5 h-5"></i>
-                    </button>
-                    <button class="bg-pmi-600 hover:bg-pmi-700 text-white px-6 py-2.5 rounded-full font-semibold transition-all shadow-md shadow-pmi-600/20 hover:shadow-lg hover:shadow-pmi-600/40 hover:-translate-y-0.5">
-                        Donasi Sekarang
-                    </button>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <div class="lg:hidden">
-                    <button id="mobile-menu-btn" class="text-slate-900 p-2 focus:outline-none bg-slate-100 rounded-lg active:scale-95 transition-transform">
-                        <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
-                        <i data-lucide="x" id="close-icon" class="w-6 h-6 hidden"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-slate-100 shadow-2xl absolute w-full left-0 top-full p-4 flex flex-col gap-2">
-            <a href="#" class="font-semibold text-slate-700 p-3 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Tentang PMI</a>
-            <a href="#" class="font-semibold text-slate-700 p-3 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Layanan Terpadu</a>
-            <a href="#" class="font-semibold text-slate-700 p-3 hover:bg-slate-50 hover:text-pmi-600 rounded-lg transition-colors">Informasi & Data</a>
-            <a href="#" class="font-semibold text-pmi-600 p-3 hover:bg-red-50 rounded-lg transition-colors">Portal Internal</a>
-            <hr class="border-slate-100 my-2">
-            <button class="bg-pmi-600 w-full text-white px-6 py-3.5 rounded-xl font-bold shadow-md shadow-pmi-600/20 active:scale-95 transition-transform">
-                Donasi Sekarang
-            </button>
-        </div>
-    </nav>
-
-    <!-- 3. HERO SECTION -->
-    <section class="relative pt-20 pb-20 lg:pt-32 lg:pb-32 overflow-hidden flex-grow flex items-center">
-        <!-- Background Decorative Elements -->
-        <div class="absolute inset-0 bg-slate-50 -z-20"></div>
-        <div class="absolute right-0 top-0 w-[600px] sm:w-[800px] h-[600px] sm:h-[800px] bg-gradient-to-br from-red-100 to-rose-50 rounded-full blur-[80px] sm:blur-3xl opacity-70 -translate-y-1/3 translate-x-1/3 -z-10 pointer-events-none"></div>
-        <div class="absolute left-0 bottom-0 w-[400px] sm:w-[500px] h-[400px] sm:h-[500px] bg-gradient-to-tr from-slate-200 to-white rounded-full blur-[60px] sm:blur-3xl opacity-80 translate-y-1/3 -translate-x-1/4 -z-10 pointer-events-none"></div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full">
-            <div class="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-                
-                <!-- Text Content -->
-                <div class="max-w-2xl text-center lg:text-left mx-auto lg:mx-0">
-                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 border border-red-100 text-pmi-600 text-xs sm:text-sm font-bold mb-8 shadow-sm">
-                        <span class="flex h-2.5 w-2.5 rounded-full bg-pmi-600 animate-ping absolute"></span>
-                        <span class="flex h-2.5 w-2.5 rounded-full bg-pmi-600 relative"></span>
-                        Sistem Informasi Terintegrasi 2026
-                    </div>
-                    
-                    <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 mb-6 leading-[1.1]">
-                        Kemanusiaan <br />
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-pmi-600 to-rose-400">
-                            Tanpa Batas
-                        </span>
-                    </h1>
-                    
-                    <p class="text-base sm:text-lg text-slate-600 mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
-                        Palang Merah Indonesia Kabupaten Lombok Barat hadir lebih dekat, cepat, dan transparan. Melayani kebutuhan darah, penanggulangan bencana, dan sosial kemanusiaan untuk masyarakat.
-                    </p>
-                    
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        <button class="bg-pmi-600 hover:bg-pmi-700 text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-xl shadow-pmi-600/30 hover:shadow-2xl hover:shadow-pmi-600/40 hover:-translate-y-1 flex items-center justify-center gap-3 group">
-                            <i data-lucide="droplet" class="w-5 h-5 fill-white/20 group-hover:fill-white/40 transition-colors"></i>
-                            Stok Darah Live
-                        </button>
-                        <button class="bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-700 px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 hover:bg-slate-50 flex items-center justify-center gap-3">
-                            <i data-lucide="shield-alert" class="w-5 h-5 text-amber-500"></i>
-                            Lapor Darurat
-                        </button>
-                    </div>
-
-                    <div class="mt-12 flex flex-wrap justify-center lg:justify-start items-center gap-5 sm:gap-8 text-sm font-semibold text-slate-600">
-                        <div class="flex items-center gap-2"><i data-lucide="check-circle-2" class="text-green-500 w-5 h-5"></i> Hotline 24 Jam</div>
-                        <div class="flex items-center gap-2"><i data-lucide="check-circle-2" class="text-green-500 w-5 h-5"></i> Respon Cepat</div>
-                        <div class="flex items-center gap-2"><i data-lucide="check-circle-2" class="text-green-500 w-5 h-5"></i> Terakreditasi</div>
-                    </div>
-                </div>
-
-                <!-- Hero Image / Dashboard Mockup (CSS only) -->
-                <div class="relative w-full max-w-lg lg:max-w-none mx-auto mt-10 lg:mt-0">
-                    <div class="relative rounded-3xl shadow-2xl overflow-hidden bg-white border border-slate-100 transform lg:rotate-2 hover:rotate-0 transition-transform duration-500 hover:shadow-3xl">
-                        
-                        <!-- Mac OS style window header -->
-                        <div class="bg-slate-50 border-b border-slate-100 p-3 sm:p-4 flex items-center gap-2">
-                            <div class="flex gap-2">
-                                <div class="w-3.5 h-3.5 rounded-full bg-red-400"></div>
-                                <div class="w-3.5 h-3.5 rounded-full bg-amber-400"></div>
-                                <div class="w-3.5 h-3.5 rounded-full bg-green-400"></div>
-                            </div>
-                            <div class="mx-auto bg-white border border-slate-200 rounded-md px-6 py-1.5 text-[10px] sm:text-xs text-slate-500 font-semibold flex items-center gap-2 shadow-sm">
-                                <i data-lucide="lock" class="w-3 h-3 text-slate-400"></i> sim.pmilobar.or.id
-                            </div>
-                        </div>
-
-                        <!-- Dashboard Content -->
-                        <div class="p-5 sm:p-8">
-                            <div class="flex justify-between items-center mb-6">
-                                <h3 class="font-extrabold text-slate-800 text-base sm:text-lg tracking-tight">Dashboard Stok Darah</h3>
-                                <span class="flex items-center gap-1.5 text-xs font-bold text-green-700 bg-green-100 border border-green-200 px-3 py-1.5 rounded-full">
-                                    <span class="relative flex h-2 w-2">
-                                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-                                      <span class="relative inline-flex rounded-full h-2 w-2 bg-green-600"></span>
-                                    </span>
-                                    Live
-                                </span>
-                            </div>
-                            
-                            <!-- Blood Badges Grid -->
-                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                                <!-- Badge A -->
-                                <div class="p-4 rounded-2xl border border-slate-100 bg-slate-50 text-center transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer hover:bg-white hover:border-slate-200 group">
-                                    <div class="text-xl font-bold text-slate-600 group-hover:text-pmi-600 transition-colors">A</div>
-                                    <div class="text-3xl font-black text-slate-900 my-2">45</div>
-                                    <div class="text-[10px] font-bold uppercase tracking-widest text-green-500">Aman</div>
-                                </div>
-                                <!-- Badge B -->
-                                <div class="p-4 rounded-2xl border border-slate-100 bg-slate-50 text-center transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer hover:bg-white hover:border-slate-200 group">
-                                    <div class="text-xl font-bold text-slate-600 group-hover:text-pmi-600 transition-colors">B</div>
-                                    <div class="text-3xl font-black text-slate-900 my-2">32</div>
-                                    <div class="text-[10px] font-bold uppercase tracking-widest text-green-500">Aman</div>
-                                </div>
-                                <!-- Badge AB (Critical) -->
-                                <div class="p-4 rounded-2xl border border-red-200 bg-red-50 text-center transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer hover:bg-red-100 group relative overflow-hidden">
-                                    <div class="absolute top-0 left-0 w-full h-1 bg-red-500"></div>
-                                    <div class="text-xl font-bold text-pmi-600">AB</div>
-                                    <div class="text-3xl font-black text-slate-900 my-2">8</div>
-                                    <div class="text-[10px] font-bold uppercase tracking-widest text-red-600 animate-pulse">Kritis</div>
-                                </div>
-                                <!-- Badge O -->
-                                <div class="p-4 rounded-2xl border border-slate-100 bg-slate-50 text-center transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer hover:bg-white hover:border-slate-200 group">
-                                    <div class="text-xl font-bold text-slate-600 group-hover:text-pmi-600 transition-colors">O</div>
-                                    <div class="text-3xl font-black text-slate-900 my-2">120</div>
-                                    <div class="text-[10px] font-bold uppercase tracking-widest text-green-500">Aman</div>
-                                </div>
-                            </div>
-                            
-                            <!-- Progress bar -->
-                            <div class="space-y-3">
-                                <div class="flex justify-between text-xs font-bold text-slate-600 mb-1">
-                                    <span>Target Permintaan Harian</span>
-                                    <span class="text-pmi-600">70% Terpenuhi</span>
-                                </div>
-                                <div class="h-3 w-full bg-slate-100 rounded-full overflow-hidden border border-slate-200/60">
-                                    <div class="h-full bg-gradient-to-r from-pmi-500 to-pmi-400 w-[70%] rounded-full relative">
-                                        <div class="absolute top-0 right-0 bottom-0 left-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.2)_25%,transparent_25%,transparent_50%,rgba(255,255,255,0.2)_50%,rgba(255,255,255,0.2)_75%,transparent_75%,transparent)] bg-[length:1rem_1rem]"></div>
-                                    </div>
-                                </div>
-                                <div class="text-[10px] text-slate-400 font-medium text-right">Update terakhir: 2 menit yang lalu</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Floating Animated Badge -->
-                    <div class="absolute -bottom-6 -left-6 sm:-left-8 bg-white p-4 sm:p-5 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-4 animate-bounce-slow z-10">
-                        <div class="w-12 h-12 sm:w-14 sm:h-14 bg-green-100 text-green-600 rounded-full flex items-center justify-center shadow-inner">
-                            <i data-lucide="truck" class="w-6 h-6 sm:w-7 sm:h-7"></i>
-                        </div>
-                        <div>
-                            <p class="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-widest mb-0.5">Ambulans</p>
-                            <p class="text-sm sm:text-base font-black text-slate-900">Siaga 24 Jam</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- 4. LAYANAN CEPAT TANGGAP (Bento Grid) -->
-    <section class="py-24 bg-white relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mb-5 tracking-tight">Layanan & Cepat Tanggap</h2>
-                <p class="text-slate-600 text-lg font-medium leading-relaxed">Akses cepat ke berbagai layanan utama PMI Kabupaten Lombok Barat, terintegrasi dan responsif untuk masyarakat.</p>
-            </div>
-
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Card 1 -->
-                <div class="group p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col h-full">
-                    <div class="w-16 h-16 rounded-2xl bg-red-50 text-pmi-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 group-hover:bg-pmi-600 group-hover:text-white group-hover:shadow-lg group-hover:shadow-pmi-600/30">
-                        <i data-lucide="droplet" class="w-8 h-8"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Unit Donor Darah</h3>
-                    <p class="text-slate-600 leading-relaxed text-sm font-medium flex-grow">Jadwal donor, mobile unit, registrasi online, dan e-kartu donor pendonor sukarela.</p>
-                    <div class="mt-8 flex items-center gap-2 text-sm font-bold text-slate-900 group-hover:text-pmi-600 transition-colors">
-                        Pelajari Lebih Lanjut <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                    </div>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="group p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col h-full">
-                    <div class="w-16 h-16 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 group-hover:bg-blue-600 group-hover:text-white group-hover:shadow-lg group-hover:shadow-blue-600/30">
-                        <i data-lucide="heart-pulse" class="w-8 h-8"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Kesehatan Terpadu</h3>
-                    <p class="text-slate-600 leading-relaxed text-sm font-medium flex-grow">Ambulans darurat, klinik, home care, dan pelatihan pertolongan pertama (First Aid).</p>
-                    <div class="mt-8 flex items-center gap-2 text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
-                        Pelajari Lebih Lanjut <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="group p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col h-full">
-                    <div class="w-16 h-16 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 group-hover:bg-amber-500 group-hover:text-white group-hover:shadow-lg group-hover:shadow-amber-500/30">
-                        <i data-lucide="shield-alert" class="w-8 h-8"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Manajemen Bencana</h3>
-                    <p class="text-slate-600 leading-relaxed text-sm font-medium flex-grow">Informasi pra-bencana, tanggap darurat, pasca bencana, dan dashboard pemetaan GIS.</p>
-                    <div class="mt-8 flex items-center gap-2 text-sm font-bold text-slate-900 group-hover:text-amber-600 transition-colors">
-                        Pelajari Lebih Lanjut <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                    </div>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="group p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col h-full">
-                    <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 group-hover:bg-emerald-500 group-hover:text-white group-hover:shadow-lg group-hover:shadow-emerald-500/30">
-                        <i data-lucide="heart-handshake" class="w-8 h-8"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Sosial Kemanusiaan</h3>
-                    <p class="text-slate-600 leading-relaxed text-sm font-medium flex-grow">Bantuan sosial, distribusi air bersih (WASH), dan dukungan psikososial masyarakat.</p>
-                    <div class="mt-8 flex items-center gap-2 text-sm font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
-                        Pelajari Lebih Lanjut <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 5. FITUR DIGITAL UNGGULAN (Dark Section) -->
-    <section class="py-24 bg-slate-900 text-white overflow-hidden relative">
-        <!-- Stripe-like background glow -->
-        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-slate-700 via-transparent to-transparent pointer-events-none"></div>
-        
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
-                
-                <!-- Content -->
-                <div>
-                    <h2 class="text-xs sm:text-sm font-extrabold tracking-widest text-pmi-500 uppercase mb-4 border-b border-pmi-500/30 pb-2 inline-block">Transformasi Digital</h2>
-                    <h3 class="text-4xl lg:text-5xl font-black mb-6 leading-[1.1] tracking-tight">Satu Platform, <br/><span class="text-slate-400">Jutaan Manfaat.</span></h3>
-                    <p class="text-slate-400 text-base sm:text-lg mb-12 leading-relaxed font-medium">
-                        Kami menghadirkan inovasi teknologi untuk memastikan setiap bantuan, tetes darah, dan tenaga relawan tersalurkan dengan presisi, cepat, dan transparan melalui sistem terintegrasi.
-                    </p>
-                    
-                    <div class="grid sm:grid-cols-2 gap-x-8 gap-y-10">
-                        <div class="flex gap-4 items-start group">
-                            <div class="mt-1 w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-pmi-400 shrink-0 border border-slate-700 group-hover:bg-pmi-600 group-hover:text-white transition-colors group-hover:border-transparent shadow-lg">
-                                <i data-lucide="smartphone" class="w-5 h-5"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-white mb-2 text-lg">Aplikasi Mobile</h4>
-                                <p class="text-sm text-slate-400 font-medium leading-relaxed">Akses E-Kartu Donor & Tracking pergerakan Ambulans secara realtime.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 items-start group">
-                            <div class="mt-1 w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-pmi-400 shrink-0 border border-slate-700 group-hover:bg-pmi-600 group-hover:text-white transition-colors group-hover:border-transparent shadow-lg">
-                                <i data-lucide="map-pin" class="w-5 h-5"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-white mb-2 text-lg">GIS Bencana</h4>
-                                <p class="text-sm text-slate-400 font-medium leading-relaxed">Pemetaan interaktif lokasi rawan, posko & shelter pengungsian.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 items-start group">
-                            <div class="mt-1 w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-pmi-400 shrink-0 border border-slate-700 group-hover:bg-pmi-600 group-hover:text-white transition-colors group-hover:border-transparent shadow-lg">
-                                <i data-lucide="users" class="w-5 h-5"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-white mb-2 text-lg">Portal Relawan</h4>
-                                <p class="text-sm text-slate-400 font-medium leading-relaxed">Sistem E-Learning, Database terpusat KSR, & Sertifikat Digital.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 items-start group">
-                            <div class="mt-1 w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-pmi-400 shrink-0 border border-slate-700 group-hover:bg-pmi-600 group-hover:text-white transition-colors group-hover:border-transparent shadow-lg">
-                                <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-white mb-2 text-lg">SIM Terintegrasi</h4>
-                                <p class="text-sm text-slate-400 font-medium leading-relaxed">Dashboard Eksekutif untuk monitor KPI & Transparansi Donasi.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <a href="#" class="mt-14 text-white font-bold flex items-center gap-3 hover:text-white transition-all group inline-flex border border-slate-700 px-8 py-4 rounded-2xl hover:border-pmi-500 hover:bg-pmi-600/10 shadow-lg">
-                        Jelajahi Portal Internal <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1.5 transition-transform"></i>
-                    </a>
-                </div>
-                
-                <!-- Abstract UI Graphic -->
-                <div class="relative mt-10 lg:mt-0">
-                    <div class="bg-slate-800/80 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-slate-700 shadow-2xl relative z-10 transform lg:-rotate-3 transition-transform hover:rotate-0 duration-700">
-                        <div class="flex justify-between items-center mb-8 border-b border-slate-700 pb-4">
-                            <div class="flex gap-2.5">
-                                <div class="w-3.5 h-3.5 rounded-full bg-slate-600"></div>
-                                <div class="w-3.5 h-3.5 rounded-full bg-slate-600"></div>
-                            </div>
-                            <div class="h-10 w-10 bg-slate-700/50 rounded-full border border-slate-600 flex justify-center items-center cursor-pointer hover:bg-slate-600 transition-colors">
-                                <i data-lucide="user" class="w-5 h-5 text-slate-300"></i>
-                            </div>
-                        </div>
-                        
-                        <div class="space-y-5">
-                            <!-- Graph Placeholder -->
-                            <div class="h-40 sm:h-48 bg-slate-900/50 rounded-2xl border border-slate-700/50 p-5 flex flex-col justify-end relative overflow-hidden group cursor-pointer">
-                                <!-- Fake graph bars -->
-                                <div class="flex gap-3 items-end h-full w-full opacity-70 group-hover:opacity-100 transition-opacity">
-                                    <div class="w-1/6 bg-gradient-to-t from-pmi-600 to-pmi-400 rounded-t-md h-1/3 hover:brightness-125 transition-all"></div>
-                                    <div class="w-1/6 bg-gradient-to-t from-pmi-600 to-pmi-400 rounded-t-md h-2/3 hover:brightness-125 transition-all"></div>
-                                    <div class="w-1/6 bg-gradient-to-t from-pmi-600 to-pmi-400 rounded-t-md h-1/2 hover:brightness-125 transition-all"></div>
-                                    <div class="w-1/6 bg-gradient-to-t from-pmi-600 to-pmi-400 rounded-t-md h-full hover:brightness-125 transition-all"></div>
-                                    <div class="w-1/6 bg-gradient-to-t from-pmi-600 to-pmi-400 rounded-t-md h-3/4 hover:brightness-125 transition-all"></div>
-                                    <div class="w-1/6 bg-gradient-to-t from-pmi-600 to-pmi-400 rounded-t-md h-5/6 hover:brightness-125 transition-all"></div>
-                                </div>
-                                <div class="absolute top-5 left-5">
-                                    <div class="text-xs font-bold text-slate-400 mb-1 tracking-widest uppercase">Statistik Relawan Aktif</div>
-                                    <div class="text-2xl font-black text-white">1,248 <span class="text-sm font-medium text-green-400">+12%</span></div>
-                                </div>
-                            </div>
-                            
-                            <div class="flex flex-col sm:flex-row gap-5">
-                                <div class="h-28 w-full sm:w-1/2 bg-gradient-to-br from-pmi-600/20 to-transparent border border-pmi-500/30 rounded-2xl p-5 flex flex-col justify-center transition-all hover:bg-pmi-600/30 hover:border-pmi-500/50 cursor-pointer">
-                                    <i data-lucide="droplet" class="text-pmi-400 mb-3 w-7 h-7"></i>
-                                    <div class="h-3 w-3/4 bg-pmi-400/50 rounded-full mb-2"></div>
-                                    <div class="h-2 w-1/2 bg-pmi-400/30 rounded-full"></div>
-                                </div>
-                                <div class="h-28 w-full sm:w-1/2 bg-slate-800 border border-slate-700 rounded-2xl p-5 flex flex-col justify-center transition-all hover:bg-slate-700 cursor-pointer">
-                                    <i data-lucide="truck" class="text-slate-400 mb-3 w-7 h-7"></i>
-                                    <div class="h-3 w-3/4 bg-slate-500/50 rounded-full mb-2"></div>
-                                    <div class="h-2 w-1/2 bg-slate-600/50 rounded-full"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Ambient Glow -->
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-pmi-600/20 blur-[120px] -z-10 rounded-full pointer-events-none"></div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- 6. BERITA & AGENDA -->
-    <section class="py-24 bg-slate-50 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-6 border-b border-slate-200 pb-6">
-                <div>
-                    <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mb-3 tracking-tight">Berita & Agenda</h2>
-                    <p class="text-slate-600 font-medium text-lg">Kabar terbaru dari kegiatan kemanusiaan di Lombok Barat.</p>
-                </div>
-                <a href="#" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-slate-200 text-slate-700 font-bold hover:text-pmi-600 hover:border-pmi-200 hover:bg-pmi-50 transition-all shadow-sm group">
-                    Lihat Semua <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                </a>
-            </div>
-
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- News 1 -->
-                <div class="group cursor-pointer flex flex-col">
-                    <div class="w-full h-64 rounded-3xl bg-slate-200 mb-5 overflow-hidden relative shadow-sm border border-slate-100">
-                        <img src="https://images.unsplash.com/photo-1593113565694-c6f175aeb1c2?auto=format&fit=crop&q=80&w=800" alt="News Image" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-black tracking-wide uppercase text-pmi-600 shadow-md">
-                            Bencana
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-3 text-sm font-bold mb-3 text-slate-500">
-                        <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4 text-pmi-500"></i> 24 Okt 2026</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 leading-snug group-hover:text-pmi-600 transition-colors mb-3">
-                        PMI Lobar Distribusikan 50.000 Liter Air Bersih ke Sekotong
-                    </h3>
-                    <p class="text-slate-600 text-sm font-medium line-clamp-2">Merespon kekeringan panjang, puluhan relawan diberangkatkan untuk mendistribusikan air bersih di 5 desa terdampak.</p>
-                </div>
-
-                <!-- News 2 -->
-                <div class="group cursor-pointer flex flex-col">
-                    <div class="w-full h-64 rounded-3xl bg-slate-200 mb-5 overflow-hidden relative shadow-sm border border-slate-100">
-                        <img src="https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&q=80&w=800" alt="News Image" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-black tracking-wide uppercase text-pmi-600 shadow-md">
-                            Donor Darah
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-3 text-sm font-bold mb-3 text-slate-500">
-                        <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4 text-pmi-500"></i> 22 Okt 2026</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 leading-snug group-hover:text-pmi-600 transition-colors mb-3">
-                        Peringatan Hari Relawan: Targetkan 1000 Kantong Darah
-                    </h3>
-                    <p class="text-slate-600 text-sm font-medium line-clamp-2">Menggandeng berbagai instansi pemerintah, PMI gelar aksi donor massal serentak di alun-alun kabupaten.</p>
-                </div>
-
-                <!-- News 3 -->
-                <div class="group cursor-pointer flex flex-col">
-                    <div class="w-full h-64 rounded-3xl bg-slate-200 mb-5 overflow-hidden relative shadow-sm border border-slate-100">
-                        <img src="https://images.unsplash.com/photo-1588775005506-cc9c8378ec4b?auto=format&fit=crop&q=80&w=800" alt="News Image" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-black tracking-wide uppercase text-pmi-600 shadow-md">
-                            Diklat
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-3 text-sm font-bold mb-3 text-slate-500">
-                        <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4 text-pmi-500"></i> 20 Okt 2026</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 leading-snug group-hover:text-pmi-600 transition-colors mb-3">
-                        Pelatihan Water Rescue untuk Relawan KSR se-Lombok Barat
-                    </h3>
-                    <p class="text-slate-600 text-sm font-medium line-clamp-2">Peningkatan kapasitas relawan dalam menghadapi potensi bencana banjir dan musibah di wilayah perairan.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 7. FOOTER (Mega Directory Sesuai Dokumen) -->
-    <footer class="bg-slate-900 pt-24 pb-12 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-x-8 gap-y-12 mb-16">
-                
-                <!-- Brand & Contact -->
-                <div class="col-span-2 lg:col-span-2 lg:pr-10">
-                    <div class="flex items-center gap-3 mb-8">
-                        <div class="w-10 h-10 bg-pmi-600 rounded-lg flex items-center justify-center shadow-lg shadow-pmi-600/20">
-                            <svg viewBox="0 0 24 24" fill="white" class="w-6 h-6">
-                                <path d="M19 10h-5V5a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v5H5a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h5v5a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-5h5a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1z"/>
-                            </svg>
-                        </div>
-                        <span class="font-extrabold text-2xl text-white tracking-tight">PMI Lobar</span>
-                    </div>
-                    <p class="text-slate-400 text-sm mb-8 leading-relaxed font-medium">
-                        Markas Kabupaten PMI Lombok Barat.<br/>
-                        Melayani masyarakat dengan prinsip dasar Gerakan Palang Merah dan Bulan Sabit Merah Internasional.
-                    </p>
-                    <div class="space-y-4 text-sm font-medium text-slate-300">
-                        <p class="flex items-center gap-3 hover:text-white transition-colors cursor-pointer w-fit"><i data-lucide="phone" class="w-5 h-5 text-slate-500"></i> (0370) 666-118</p>
-                        <p class="flex items-center gap-3 hover:text-white transition-colors cursor-pointer w-fit"><i data-lucide="mail" class="w-5 h-5 text-slate-500"></i> info@pmilobar.or.id</p>
-                        <p class="flex items-start gap-3 hover:text-white transition-colors cursor-pointer"><i data-lucide="map-pin" class="w-5 h-5 text-slate-500 shrink-0"></i> <span>Jl. Soekarno Hatta, Gerung, Kabupaten Lombok Barat, NTB</span></p>
-                    </div>
-                </div>
-
-                <!-- Kolom 1: Tentang & Pengurus -->
-                <div>
-                    <h4 class="text-white font-bold mb-6 text-sm tracking-widest uppercase">Tentang PMI</h4>
-                    <ul class="space-y-3 text-sm font-medium text-slate-400">
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Sejarah & Profil</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Visi, Misi & Prinsip</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Legalitas (AD/ART)</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Struktur Organisasi</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Dewan Kehormatan</a></li>
-                        <li class="pt-4"><h4 class="text-white font-bold mb-3 text-sm tracking-widest uppercase">Pengurus</h4></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Pengurus Kabupaten</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>10 Pengurus Kecamatan</a></li>
-                    </ul>
-                </div>
-
-                <!-- Kolom 2: Layanan Utama -->
-                <div>
-                    <h4 class="text-white font-bold mb-6 text-sm tracking-widest uppercase">Unit & Layanan</h4>
-                    <ul class="space-y-3 text-sm font-medium text-slate-400">
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Unit Donor Darah</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Layanan Kesehatan</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Ambulans Siaga</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Manajemen Bencana</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Sosial Kemanusiaan</a></li>
-                        <li class="pt-4"><h4 class="text-white font-bold mb-3 text-sm tracking-widest uppercase">Relawan</h4></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>KSR, TSR & FORFIS</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>PMR (Mula, Madya, Wira)</a></li>
-                    </ul>
-                </div>
-
-                <!-- Kolom 3: Transparansi & Data -->
-                <div>
-                    <h4 class="text-white font-bold mb-6 text-sm tracking-widest uppercase">Transparansi</h4>
-                    <ul class="space-y-3 text-sm font-medium text-slate-400">
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Laporan Tahunan</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Laporan Keuangan</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Laporan Donasi</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Layanan PPID</a></li>
-                        <li class="pt-4"><h4 class="text-white font-bold mb-3 text-sm tracking-widest uppercase">Publikasi</h4></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Buku & Pedoman</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Download Center</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Data & Statistik</a></li>
-                    </ul>
-                </div>
-
-                <!-- Kolom 4: Kemitraan & Internal -->
-                <div>
-                    <h4 class="text-white font-bold mb-6 text-sm tracking-widest uppercase">Portal Digital</h4>
-                    <ul class="space-y-3 text-sm font-medium text-slate-400">
-                        <li><a href="#" class="text-pmi-400 hover:text-pmi-300 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-pmi-400 group-hover:scale-150 transition-transform"></span>Login Internal <i data-lucide="lock" class="w-3 h-3"></i></a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Dashboard Eksekutif</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Sistem Info Donor</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Karier & Rekrutmen</a></li>
-                        <li class="pt-4"><h4 class="text-white font-bold mb-3 text-sm tracking-widest uppercase">Kemitraan</h4></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Pemerintah & Instansi</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Dunia Usaha & CSR</a></li>
-                        <li><a href="#" class="hover:text-pmi-400 transition-colors flex items-center gap-2 group"><span class="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-pmi-400 transition-colors"></span>Pengaduan (WBS)</a></li>
-                    </ul>
-                </div>
-
-            </div>
-
-            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
-                <p class="text-slate-500 text-sm font-medium text-center md:text-left">
-                    &copy; 2026 PMI Kabupaten Lombok Barat. Dirancang dengan kebanggaan untuk kemanusiaan.
-                </p>
-                <div class="flex gap-3">
-                    <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-blue-600 hover:text-white hover:-translate-y-1 transition-all duration-300" aria-label="Facebook">
-                        <i data-lucide="facebook" class="w-5 h-5"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-pink-600 hover:text-white hover:-translate-y-1 transition-all duration-300" aria-label="Instagram">
-                        <i data-lucide="instagram" class="w-5 h-5"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-red-600 hover:text-white hover:-translate-y-1 transition-all duration-300" aria-label="Youtube">
-                        <i data-lucide="youtube" class="w-5 h-5"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-green-500 hover:text-white hover:-translate-y-1 transition-all duration-300" aria-label="WhatsApp">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/></svg>
-                    </a>
+    <footer class="bg-darker pt-16 pb-8 border-t border-slate-800 text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left">
+            <div class="border-t border-slate-800/80 pt-8 flex flex-col md:flex-row justify-between items-center text-xs font-medium gap-4">
+                <p>&copy; 2026 Palang Merah Indonesia Kabupaten Lombok Barat. Hak Cipta Dilindungi.</p>
+                <div class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/5">
+                    <span>Sistem Informasi PMI</span>
+                    <i class="fa-solid fa-heart text-brand-500 animate-pulse"></i>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript (Vanilla) -->
     <script>
-        // 1. Inisialisasi Lucide Icons
-        lucide.createIcons();
-
-        // 2. Logic Sticky Navbar (Efek Glassmorphism saat scroll)
-        const navbar = document.getElementById('navbar');
+        document.addEventListener('contextmenu', e => e.preventDefault());
         
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 20) {
-                // Menambahkan efek glass dan shadow saat scroll turun
-                navbar.classList.add('glass-nav');
-                navbar.classList.remove('bg-white/50', 'border-transparent', 'py-4');
-                navbar.classList.add('py-3');
-            } else {
-                // Kembali transparan di paling atas
-                navbar.classList.remove('glass-nav', 'py-3');
-                navbar.classList.add('bg-white/50', 'border-transparent', 'py-4');
+        document.addEventListener('keydown', e => {
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) || 
+                (e.ctrlKey && (e.key === 'U' || e.key === 'u'))) {
+                e.preventDefault();
             }
         });
+        
+        document.addEventListener('dragstart', e => e.preventDefault());
 
-        // 3. Logic Toggle Menu Mobile
-        const mobileBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const menuIcon = document.getElementById('menu-icon');
-        const closeIcon = document.getElementById('close-icon');
-
-        mobileBtn.addEventListener('click', () => {
-            // Toggle dropdown
-            mobileMenu.classList.toggle('hidden');
+        document.addEventListener('DOMContentLoaded', () => {
+            const html = document.documentElement;
+            const btnTheme = document.getElementById('btn-theme');
+            let isDark = false;
             
-            // Toggle icon menu/x
-            menuIcon.classList.toggle('hidden');
-            closeIcon.classList.toggle('hidden');
+            btnTheme.addEventListener('click', () => {
+                isDark = !isDark;
+                if(isDark) {
+                    html.classList.add('dark');
+                    btnTheme.innerHTML = '<i class="fa-solid fa-sun text-lg"></i>';
+                } else {
+                    html.classList.remove('dark');
+                    btnTheme.innerHTML = '<i class="fa-solid fa-moon text-lg"></i>';
+                }
+            });
+
+            let currentLang = 'id';
+            const btnLang = document.getElementById('btn-lang');
+            const langText = document.getElementById('lang-text');
+            
+            const dictionary = {
+                logo_text: { id: 'PMI <span class="font-extrabold">Lombok Barat</span>', en: 'PMI <span class="font-extrabold">West Lombok</span>' },
+                menu_home: { id: 'Beranda', en: 'Home' },
+                menu_about: { id: 'Tentang <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>', en: 'About <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>' },
+                menu_board: { id: 'Pengurus <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>', en: 'Board <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>' },
+                menu_donor: { id: 'Donor <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>', en: 'Donor <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>' },
+                menu_health: { id: 'Kesehatan <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>', en: 'Health <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>' },
+                menu_volunteer: { id: 'Relawan <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>', en: 'Volunteer <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>' },
+                menu_agenda: { id: 'Agenda <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>', en: 'Events <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>' },
+                menu_info: { id: 'Informasi <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>', en: 'Info <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>' },
+                menu_partner: { id: 'Kemitraan <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>', en: 'Partners <i class="fa-solid fa-chevron-down text-[9px] opacity-70"></i>' },
+                
+                sub_about_1: { id: 'Sejarah dan Filosofi', en: 'History and Philosophy' },
+                sub_about_1_desc: { id: 'Menjelaskan sejarah berdirinya PMI di wilayah tersebut, visi & misi, serta makna logo.', en: 'Explains the history of PMI in the region, vision & mission, and logo meaning.' },
+                sub_about_2: { id: 'Nilai dan Prinsip', en: 'Values and Principles' },
+                sub_about_2_desc: { id: 'Memuat penjelasan mengenai 7 Prinsip Dasar Gerakan Palang Merah dan Bulan Sabit Merah.', en: 'Contains an explanation of the 7 Fundamental Principles of the Red Cross Movement.' },
+                sub_about_3: { id: 'Legalitas Lembaga', en: 'Institutional Legality' },
+                sub_about_3_desc: { id: 'Berisi dasar hukum, SK pendirian, AD/ART, dan struktur organisasi secara hukum.', en: 'Contains legal basis, establishment decree, and legal organizational structure.' },
+                
+                sub_board_1: { id: 'Personil PMI', en: 'PMI Personnel' },
+                sub_board_1_desc: { id: 'Menampilkan profil Ketua, Dewan Kehormatan, Jajaran Pengurus, dan Kepala Markas/UTD.', en: 'Displays profiles of the Chairman, Honorary Board, Management, and Head of HQ.' },
+                sub_board_2: { id: 'Markas PMI', en: 'PMI Headquarters' },
+                sub_board_2_desc: { id: 'Informasi detail mengenai fasilitas markas, jam operasional, dan struktur staf markas.', en: 'Detailed information regarding HQ facilities, operational hours, and staff structure.' },
+                sub_board_3: { id: 'Forum PMI', en: 'PMI Forum' },
+                sub_board_3_desc: { id: 'Wadah informasi mengenai rapat kerja, musyawarah, atau buletin internal keanggotaan.', en: 'Information platform for working meetings, deliberations, or internal member bulletins.' },
+                
+                sub_donor_1: { id: 'Informasi dan Jadwal', en: 'Info and Schedule' },
+                sub_donor_1_desc: { id: 'Memuat syarat menjadi pendonor darah, manfaat donor, dan jadwal Mobil Unit Keliling.', en: 'Contains requirements, benefits, and the Mobile Unit schedule.' },
+                sub_donor_2: { id: 'Layanan dan Registrasi', en: 'Service and Registration' },
+                sub_donor_2_desc: { id: 'Formulir pendaftaran online untuk pendonor, prosedur antrean, dan alur donor.', en: 'Online registration form for donors, queue procedures, and donor workflow.' },
+                sub_donor_3: { id: 'Donor dan Donasi', en: 'Donors and Donations' },
+                sub_donor_3_desc: { id: 'Laman khusus donasi di luar darah (dana kemanusiaan, barang, beserta rekening resmi).', en: 'Special page for non-blood donations (humanitarian funds, goods, and official accounts).' },
+                
+                sub_health_1: { id: 'Layanan Kesehatan', en: 'Health Services' },
+                sub_health_1_desc: { id: 'Informasi fasilitas Poliklinik PMI, layanan khitanan, cek golongan darah, dll.', en: 'Information on Polyclinic facilities, circumcision services, blood typing, etc.' },
+                sub_health_2: { id: 'Sosial Kemanusiaan', en: 'Social Humanity' },
+                sub_health_2_desc: { id: 'Dokumentasi program pendampingan sosial (panti asuhan binaan, operasi katarak gratis).', en: 'Documentation of social assistance programs (orphanages, free cataract surgery).' },
+                sub_health_3: { id: 'Tanggap Bencana', en: 'Disaster Response' },
+                sub_health_3_desc: { id: 'SOP kesiapsiagaan, mitigasi, dan laporan aksi respons cepat di lokasi bencana.', en: 'Preparedness SOPs, mitigation, and rapid response action reports at disaster locations.' },
+                
+                sub_vol_1: { id: 'Unit Relawan', en: 'Volunteer Unit' },
+                sub_vol_1_desc: { id: 'Penjelasan PMR, KSR, TSR, dan DDS sebagai ujung tombak gerakan kemanusiaan.', en: 'Explanation of PMR, KSR, TSR, and DDS as the spearhead of the movement.' },
+                sub_vol_2: { id: 'Pendidikan dan Pelatihan', en: 'Education & Training' },
+                sub_vol_2_desc: { id: 'Kalender jadwal diklat, materi pelatihan, dan info sertifikasi bagi relawan.', en: 'Training schedule calendar, materials, and certification info for volunteers.' },
+                sub_vol_3: { id: 'Daftar Relawan', en: 'Register as Volunteer' },
+                sub_vol_3_desc: { id: 'Halaman pendaftaran online bagi masyarakat umum/pelajar yang ingin bergabung.', en: 'Online registration page for general public/students who want to join.' },
+                
+                sub_agenda_1: { id: 'Sudah Berlangsung', en: 'Past Events' },
+                sub_agenda_1_desc: { id: 'Arsip, laporan sukses, dan evaluasi kegiatan yang telah lewat.', en: 'Archives, success reports, and evaluation of past activities.' },
+                sub_agenda_2: { id: 'Sedang Berlangsung', en: 'Ongoing Events' },
+                sub_agenda_2_desc: { id: 'Live update atau informasi acara yang sedang berjalan hari ini / minggu ini.', en: 'Live updates or information on events running today/this week.' },
+                sub_agenda_3: { id: 'Akan Berlangsung', en: 'Upcoming Events' },
+                sub_agenda_3_desc: { id: 'Kalender event mendatang beserta tautan pendaftaran peserta.', en: 'Upcoming event calendar along with participant registration links.' },
+                
+                sub_info_1: { id: 'Berita', en: 'News' },
+                sub_info_1_desc: { id: 'Artikel terbaru, rilis pers (press release), dan opini/artikel kesehatan.', en: 'Latest articles, press releases, and health opinion pieces.' },
+                sub_info_2: { id: 'Galeri', en: 'Gallery' },
+                sub_info_2_desc: { id: 'Album foto dan tautan video YouTube dokumentasi kegiatan resmi.', en: 'Photo albums and YouTube video links documenting official activities.' },
+                sub_info_3: { id: 'PPID', en: 'Public Info' },
+                sub_info_3_desc: { id: 'Area transparansi publik berisi laporan keuangan, dokumen publik untuk diunduh.', en: 'Public transparency area containing financial reports and documents for download.' },
+                
+                sub_partner_1: { id: 'Mitra Vertikal', en: 'Vertical Partners' },
+                sub_partner_1_desc: { id: 'Daftar kerja sama dengan PMI Pusat, Provinsi, dan Institusi Pemerintahan Daerah.', en: 'Cooperation with Central/Provincial PMI and Local Government Institutions.' },
+                sub_partner_2: { id: 'Mitra Horizontal', en: 'Horizontal Partners' },
+                sub_partner_2_desc: { id: 'Kerja sama dengan pihak swasta, LSM, Universitas, Rumah Sakit, dan Komunitas.', en: 'Cooperation with private sectors, NGOs, Universities, Hospitals, and Communities.' },
+                sub_partner_3: { id: 'Daftar Kemitraan', en: 'Partnership Registration' },
+                sub_partner_3_desc: { id: 'Formulir online bagi instansi yang ingin mengajukan proposal kerja sama (MoU).', en: 'Online form for agencies wishing to submit cooperation proposals (MoU).' },
+
+                hero_badge: { id: 'Siaga Bencana & Layanan Darah 24 Jam', en: 'Disaster Alert & 24H Blood Service' },
+                hero_title: { id: 'Setetes Darah Anda, <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-300 via-brand-500 to-red-500">Nyawa Bagi Mereka.</span>', en: 'A Drop of Your Blood, <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-300 via-brand-500 to-red-500">Life for Them.</span>' },
+                hero_desc: { id: 'Palang Merah Indonesia hadir di garis depan untuk melayani masyarakat. Wujudkan aksi nyata kemanusiaan Anda melalui donor darah, donasi, atau bergabung sebagai relawan.', en: 'The Indonesian Red Cross is at the forefront of serving the community. Realize your humanitarian action by donating blood, funds, or volunteering.' },
+                btn_donor: { id: 'Daftar Donor Darah', en: 'Register for Blood Donation' },
+                btn_help: { id: 'Butuh Bantuan', en: 'Need Help' },
+                
+                report_title: { id: 'Laporan Bulan Ini', en: 'This Month Report' },
+                report_blood: { id: 'Kantong Darah Terkumpul', en: 'Blood Bags Collected' },
+                report_vol: { id: 'Relawan Aktif', en: 'Active Volunteers' },
+                report_med: { id: 'Aksi Medis', en: 'Medical Actions' },
+                
+                action_1: { id: 'Cek Stok Darah', en: 'Check Stock' },
+                action_2: { id: 'Panggil<br class="hidden md:block">Ambulans', en: 'Call<br class="hidden md:block">Ambulance' },
+                action_3: { id: 'Permohonan<br>Darah', en: 'Blood<br>Request' },
+                action_4: { id: 'Lapor<br>Bencana', en: 'Report<br>Disaster' },
+                action_5: { id: 'Unduh E-Sertifikat', en: 'Download E-Certificate' },
+                
+                stock_subtitle: { id: 'Layanan Darah', en: 'Blood Services' },
+                stock_title: { id: 'Stok Darah Real-Time', en: 'Real-Time Blood Stock' },
+                stock_desc: { id: 'Pantau ketersediaan kantong darah di Unit Transfusi Darah (UTD) kami saat ini.', en: 'Monitor the availability of blood bags in our Blood Transfusion Unit (UTD).' },
+                
+                partner_title: { id: 'Dipercaya & Didukung Oleh Mitra Strategis', en: 'Trusted & Supported By Strategic Partners' },
+                footer_hotline: { id: 'Hotline Gawat Darurat (24 Jam)', en: 'Emergency Hotline (24 Hours)' },
+                footer_hotline_desc: { id: 'Ambulans, Kecelakaan, Bencana Alam & Permintaan Darah', en: 'Ambulances, Accidents, Natural Disasters & Blood Requests' }
+            };
+
+            btnLang.addEventListener('click', () => {
+                currentLang = currentLang === 'id' ? 'en' : 'id';
+                langText.innerText = currentLang.toUpperCase();
+                
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    if(dictionary[key]) {
+                        el.innerHTML = dictionary[key][currentLang];
+                    }
+                });
+            });
+
+            let isSpeakerOn = false;
+            const btnSpeaker = document.getElementById('btn-speaker');
+            const speakerIndicator = document.getElementById('speaker-indicator');
+            
+            btnSpeaker.addEventListener('click', () => {
+                isSpeakerOn = !isSpeakerOn;
+                if(isSpeakerOn) {
+                    btnSpeaker.innerHTML = '<i class="fa-solid fa-volume-high text-lg"></i>';
+                    btnSpeaker.appendChild(speakerIndicator);
+                    speakerIndicator.classList.remove('hidden');
+                    
+                    let utterance = new SpeechSynthesisUtterance(currentLang === 'id' ? 'Mode suara diaktifkan. Arahkan kursor ke teks untuk membaca.' : 'Voice mode activated. Hover over text to read.');
+                    utterance.lang = currentLang === 'id' ? 'id-ID' : 'en-US';
+                    window.speechSynthesis.speak(utterance);
+                } else {
+                    btnSpeaker.innerHTML = '<i class="fa-solid fa-volume-xmark text-lg"></i>';
+                    btnSpeaker.appendChild(speakerIndicator);
+                    speakerIndicator.classList.add('hidden');
+                    window.speechSynthesis.cancel();
+                }
+            });
+
+            document.addEventListener('mouseover', (e) => {
+                if(!isSpeakerOn) return;
+                
+                const validTags = ['P', 'H1', 'H2', 'H3', 'H4', 'SPAN', 'A', 'DIV'];
+                let target = e.target;
+                
+                if (target.classList.contains('group') || target.classList.contains('dropdown-menu')) return;
+
+                if (target && validTags.includes(target.tagName) && target.innerText.trim().length > 0) {
+                    let text = target.innerText.trim();
+                    if(text.length < 2) return;
+                    
+                    window.speechSynthesis.cancel();
+                    let utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = currentLang === 'id' ? 'id-ID' : 'en-US';
+                    utterance.rate = 1.0; 
+                    window.speechSynthesis.speak(utterance);
+                }
+            });
         });
     </script>
 </body>
